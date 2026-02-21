@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = "56 731 891"; // بدّل رقمك هنا
+const WHATSAPP_NUMBER = "56731891"; // بدّل رقمك هنا
 
 const PRICE = "25 DT";
 const SIZE = "50ML";

@@ -1,34 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DADIOS — Catalogue</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DADIOS Fragrance</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="top">
-    <div class="brand">
-      <div class="logo">DADIOS</div>
-      <div class="tag">Catalogue • 50ML • 25 DT</div>
-    </div>
-    <a class="btn primary" id="waHeader" href="#" target="_blank" rel="noopener">Commander WhatsApp</a>
-  </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Nos Parfums</h1>
-      <p>Choisis un parfum puis clique “Commander”.</p>
-    </section>
+<header class="navbar">
+  <div class="logo">DADIOS</div>
+  <a class="btn-nav" href="https://wa.me/216XXXXXXXX" target="_blank">Order Now</a>
+</header>
 
-    <section class="grid" id="products"></section>
-  </main>
+<section class="hero">
+  <h1>Luxury Inspired Fragrance</h1>
+  <p>Premium 50ML Perfumes — Only 25 DT</p>
+</section>
 
-  <footer class="footer">© <span id="year"></span> DADIOS</footer>
+<section class="filters">
+  <input type="text" id="searchInput" placeholder="Search perfume...">
+  <button onclick="filterCategory('all')">All</button>
+  <button onclick="filterCategory('homme')">Homme</button>
+  <button onclick="filterCategory('femme')">Femme</button>
+</section>
 
-  <script src="app.js"></script>
+<section class="products" id="productContainer"></section>
+
+<footer>
+  © 2026 DADIOS Fragrance — Tunisia
+</footer>
+
+<script src="app.js"></script>
 </body>
 </html>

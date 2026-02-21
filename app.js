@@ -1,20 +1,28 @@
-// ✅ 1) بدّل رقمك هنا:
-const WHATSAPP_NUMBER = "21690338691"; // مثال: 21612345678
+const WHATSAPP_NUMBER = "216XXXXXXXX"; // بدّل رقمك هنا
 
-// ✅ 2) بدّل المنتجات هنا:
+const PRICE = "25 DT";
+const SIZE = "50ML";
+
 const PRODUCTS = [
-  {
-    name: "Dadios — Inspired by Armani Code",
-    size: "50ML",
-    price: "— TND",
-    img: "https://images.unsplash.com/photo-1523293836415-1d84c9f1a0c1?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Dadios — Version Night",
-    size: "50ML",
-    price: "— TND",
-    img: "https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=1200&q=80",
-  }
+  { name: "Giorgio Armani My Way", img: "images/1.jpeg" },
+  { name: "Thierry Mugler Alien", img: "images/2.jpeg" },
+  { name: "Prada Paradoxe", img: "images/3.jpeg" },
+  { name: "Maison Francis Kurkdjian Baccarat Rouge 540", img: "images/4.jpeg" },
+  { name: "Chloé", img: "images/5.jpeg" },
+  { name: "Libre Le Parfum", img: "images/6.jpeg" },
+  { name: "L’Interdit Rouge", img: "images/7.jpeg" },
+  { name: "Rasasi Dareej", img: "images/8.jpeg" },
+  { name: "Armani Code", img: "images/9.jpeg" },
+  { name: "Terre d’Hermès", img: "images/10.jpeg" },
+  { name: "Tommy", img: "images/11.jpeg" },
+  { name: "Sauvage Elixir", img: "images/12.jpeg" },
+  { name: "Bvlgari Man in Black", img: "images/13.jpeg" },
+  { name: "Azzaro Wanted", img: "images/14.jpeg" },
+  { name: "Bleu de Chanel", img: "images/15.jpeg" },
+  { name: "Creed Aventus", img: "images/16.jpeg" },
+  { name: "K by Dolce & Gabbana", img: "images/17.jpeg" },
+  { name: "Alien (Purple Edition)", img: "images/18.jpeg" },
+  { name: "Vert Malachite", img: "images/19.jpeg" },
 ];
 
 function waLink(text){
@@ -22,27 +30,24 @@ function waLink(text){
 }
 
 document.getElementById("year").textContent = new Date().getFullYear();
-
-document.getElementById("waHeader").href = waLink("Bonjour, je veux commander un parfum Dadios 50ML.");
+document.getElementById("waHeader").href = waLink("Bonjour, je veux commander un parfum Dadios 50ML (25 DT).");
 
 const root = document.getElementById("products");
-root.innerHTML = PRODUCTS.map((p, i) => {
-  const msg = `Bonjour, je veux commander: ${p.name} (${p.size}).`;
+root.innerHTML = PRODUCTS.map((p) => {
+  const msg = `Bonjour, je veux commander: ${p.name} (Dadios) - ${SIZE} - ${PRICE}.`;
   return `
   <article class="card">
     <img src="${p.img}" alt="${p.name}" loading="lazy" />
     <div class="p">
       <h3>${p.name}</h3>
       <div class="meta">
-        <span>${p.size}</span>
-        <span class="price">${p.price}</span>
+        <span>${SIZE}</span>
+        <span class="price">${PRICE}</span>
       </div>
       <div class="actions">
         <a class="btn primary" href="${waLink(msg)}" target="_blank" rel="noopener">Commander</a>
         <a class="btn" href="${waLink(`Bonjour, j'ai une question sur: ${p.name}.`)}" target="_blank" rel="noopener">Question</a>
       </div>
-      <div class="small">Commande عبر WhatsApp • Paiement à la livraison</div>
     </div>
-  </article>
-  `;
+  </article>`;
 }).join("");

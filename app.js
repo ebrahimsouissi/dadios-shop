@@ -38,7 +38,6 @@ const PRODUCTS = [
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Armani Code.jpeg",
-    detailImg:"frag/Armani Code.png",
     rating:4.4, votes:6114,
     accords:[
       {label:"Iris", color:"#b5a8d7"},

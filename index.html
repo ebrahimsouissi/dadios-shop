@@ -5,24 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DADIOS Fragrance</title>
 
+  <!-- favicon -->
   <link rel="icon" type="image/png" href="favicon.png.png" />
+
+  <!-- font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <!-- NAV -->
   <header class="navbar">
     <div class="logo">DADIOS</div>
     <a class="btn-nav" href="https://wa.me/21656731891" target="_blank" rel="noreferrer">Order Now</a>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
     <h1>Luxury Inspired Fragrance</h1>
     <p>Discover your scent</p>
   </section>
 
+  <!-- FILTERS -->
   <section class="filters">
     <input type="text" id="searchInput" placeholder="Search perfume..." />
     <button data-cat="all" class="fbtn active">All</button>
@@ -31,9 +38,10 @@
     <button data-cat="mixte" class="fbtn">Mixte</button>
   </section>
 
+  <!-- PRODUCTS -->
   <section class="products" id="productContainer"></section>
 
-  <!-- PERFUME DETAILS MODAL -->
+  <!-- MODAL (Perfume Details) -->
   <div id="perfumeModal" class="pmodal" aria-hidden="true">
     <div class="pmodal-card">
       <button id="pmodalClose" class="pmodal-close" aria-label="Close">✕</button>
@@ -52,8 +60,8 @@
 
       <div class="pmodal-grid">
         <div class="pm-left">
-          <!-- ✅ الصورة الجديدة من فولدر frag/ -->
           <img id="pmImg" class="pm-img" src="" alt="">
+
           <div class="pm-notes">
             <h3>Notes</h3>
             <div id="pmNotes" class="pm-notes-row"></div>
@@ -76,11 +84,13 @@
 
           <div class="pm-box">
             <h3>Journée</h3>
+            <!-- SMART: app.js يبدّلها ل pill وحدة -->
             <div id="pmTime" class="pm-pills"></div>
           </div>
 
           <div class="pm-box">
-            <h3>Saisons</h3>
+            <h3>Saison recommandée</h3>
+            <!-- SMART: app.js يبدّلها ل pill وحدة -->
             <div id="pmSeasons" class="pm-pills"></div>
           </div>
 

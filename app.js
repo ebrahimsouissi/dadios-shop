@@ -1,3 +1,7 @@
+// =====================
+// app.js (NO frag + SMART Season + SMART Day/Night)
+// =====================
+
 const container = document.getElementById("productContainer");
 const searchInput = document.getElementById("searchInput");
 const filterButtons = document.querySelectorAll(".fbtn");
@@ -7,18 +11,57 @@ function waLink(message){
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
+// ---------- Helpers ----------
+function getCurrentSeason(){
+  const m = new Date().getMonth() + 1;
+  if ([12,1,2].includes(m)) return "Hiver";
+  if ([3,4,5].includes(m)) return "Printemps";
+  if ([6,7,8].includes(m)) return "Été";
+  return "Automne";
+}
+
+function getCurrentTimeSlot(){
+  const h = new Date().getHours();
+  return (h >= 6 && h < 18) ? "Jour" : "Nuit";
+}
+
+function getBestSeason(p){
+  const s = p.seasons || [];
+  const cur = getCurrentSeason();
+  if (s.includes(cur)) return cur;
+  return s[0] || "Hiver";
+}
+
+function getBestTime(p){
+  const t = p.time || [];
+  const cur = getCurrentTimeSlot();
+  if (t.includes(cur)) return cur;
+  return t[0] || cur;
+}
+
+function sortBySmartSeason(list){
+  const cur = getCurrentSeason();
+  return [...list].sort((a,b)=>{
+    const aBest = getBestSeason(a);
+    const bBest = getBestSeason(b);
+    const aScore = aBest === cur ? 1 : 0;
+    const bScore = bBest === cur ? 1 : 0;
+    return bScore - aScore; // current season first
+  });
+}
+
 /*
-  ✅ thumbImg = الصورة اللي تبان في القائمة (تبقى كيف ما هي عندك)
-  ✅ detailImg = الصورة الجديدة اللي تتفتح في popup من فولدر frag/
+  ✅ thumbImg = الصورة اللي تبان في القائمة + في المودال (NO frag)
+  ✅ id UNIQUE
 */
 const PRODUCTS = [
   {
+    id:"alien",
     name:"Alien",
     brand:"Mugler",
     gender:"pour femme",
     category:"femme",
-    thumbImg:"images/Alien.jpeg",
-    detailImg:"frag/alien.png",
+    thumbImg:"images/alien.jpeg",
     rating:4.0, votes:34239,
     accords:[
       {label:"Fleurs Blanches", color:"#e9edf3"},
@@ -33,6 +76,7 @@ const PRODUCTS = [
     seasons:["Hiver","Printemps","Été","Automne"]
   },
   {
+    id:"armani-code-parfum",
     name:"Armani Code Parfum",
     brand:"Giorgio Armani",
     gender:"pour homme",
@@ -52,12 +96,12 @@ const PRODUCTS = [
     seasons:["Hiver","Printemps","Été","Automne"]
   },
   {
+    id:"azzaro-wanted-elixir",
     name:"Forever Wanted Elixir",
     brand:"Azzaro",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Azzaro Wanted.jpeg",
-    detailImg:"frag/Azzaro Wanted.png",
     rating:4.2, votes:1699,
     accords:[
       {label:"Cuir", color:"#7a4a3f"},
@@ -72,12 +116,12 @@ const PRODUCTS = [
     seasons:["Hiver","Printemps","Été","Automne"]
   },
   {
+    id:"baccarat-rouge-540",
     name:"Baccarat Rouge 540",
     brand:"Maison Francis Kurkdjian",
     gender:"pour homme et femme",
     category:"mixte",
     thumbImg:"images/Baccarat Rouge 540.jpeg",
-    detailImg:"frag/Baccarat Rouge.png",
     rating:3.8, votes:27163,
     accords:[
       {label:"Boisé", color:"#7a4a17"},
@@ -92,12 +136,12 @@ const PRODUCTS = [
     seasons:["Hiver","Printemps","Été","Automne"]
   },
   {
+    id:"bleu-de-chanel-edp",
     name:"Bleu de Chanel Eau de Parfum",
     brand:"Chanel",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Bleu de Chanel.jpeg",
-    detailImg:"frag/Bleu de Chanel.png",
     rating:4.4, votes:20095,
     accords:[
       {label:"Agrume", color:"#f1ff5b"},
@@ -109,15 +153,15 @@ const PRODUCTS = [
     notes:["Pamplemousse","Encens","Citron","Ambre","Gingembre","Cèdre"],
     longevity:"7 h", sillage:"Fort",
     time:["Jour","Nuit"],
-    seasons:["Hiver","Printemps","Été","Automne"]
+    seasons:["Printemps","Été","Automne"]
   },
   {
+    id:"bvlgari-man-in-black",
     name:"Bvlgari Man In Black",
     brand:"Bvlgari",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Bvlgari Man in Black.jpeg",
-    detailImg:"frag/Bvlgari Man in Black.png",
     rating:4.3, votes:9979,
     accords:[
       {label:"Épicé Chaud", color:"#c93a1a"},
@@ -129,15 +173,15 @@ const PRODUCTS = [
     notes:["Notes Épicées","Rhum","Cuir","Tabac","Fève Tonka","Bois de Gaïac"],
     longevity:"7 h", sillage:"Fort",
     time:["Jour","Nuit"],
-    seasons:["Hiver","Printemps","Été","Automne"]
+    seasons:["Hiver","Automne"]
   },
   {
+    id:"chloe-edp",
     name:"Chloé Eau de Parfum",
     brand:"Chloé",
     gender:"pour femme",
     category:"femme",
     thumbImg:"images/Chloé Eau de Parfum.jpeg",
-    detailImg:"frag/chloe.png",
     rating:4.0, votes:22860,
     accords:[
       {label:"Floral", color:"#ff5b91"},
@@ -152,12 +196,12 @@ const PRODUCTS = [
     seasons:["Printemps","Été"]
   },
   {
+    id:"aventus-for-her",
     name:"Aventus for Her",
     brand:"Creed",
     gender:"pour femme",
     category:"femme",
     thumbImg:"images/Aventus for Her.jpeg",
-    detailImg:"frag/Creed Aventus.png",
     rating:3.6, votes:3214,
     accords:[
       {label:"Fruité", color:"#ff4a2b"},
@@ -172,12 +216,12 @@ const PRODUCTS = [
     seasons:["Printemps","Été"]
   },
   {
+    id:"dareej-homme",
     name:"Dareej pour Homme",
     brand:"Rasasi",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Dareej.jpeg",
-    detailImg:"frag/Dareej.png",
     rating:4.1, votes:3063,
     accords:[
       {label:"Vanille", color:"#f2e7a3"},
@@ -192,12 +236,12 @@ const PRODUCTS = [
     seasons:["Hiver","Automne"]
   },
   {
+    id:"k-dg-edp",
     name:"K by Dolce & Gabbana Eau de Parfum",
     brand:"Dolce & Gabbana",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/K Dolce Gabbana.jpeg",
-    detailImg:"frag/K Dolce Gabbana.png",
     rating:4.0, votes:3243,
     accords:[
       {label:"Aromatique", color:"#3aa58c"},
@@ -212,12 +256,12 @@ const PRODUCTS = [
     seasons:["Printemps","Été","Automne"]
   },
   {
+    id:"interdit-rouge-ultime",
     name:"L’Interdit Eau de Parfum Rouge Ultime",
     brand:"Givenchy",
     gender:"pour femme",
     category:"femme",
     thumbImg:"images/L’Interdit Rouge.jpeg",
-    detailImg:"frag/L’Interdit Rouge.png",
     rating:4.1, votes:2326,
     accords:[
       {label:"Fleurs Blanches", color:"#e9edf3"},
@@ -232,12 +276,12 @@ const PRODUCTS = [
     seasons:["Hiver","Automne"]
   },
   {
+    id:"libre-le-parfum",
     name:"Libre Le Parfum",
     brand:"Yves Saint Laurent",
     gender:"pour femme",
     category:"femme",
     thumbImg:"images/Libre Le Parfum.jpeg",
-    detailImg:"frag/Libre Le Parfum.png",
     rating:4.3, votes:4665,
     accords:[
       {label:"Vanille", color:"#f2e7a3"},
@@ -252,12 +296,12 @@ const PRODUCTS = [
     seasons:["Hiver","Automne"]
   },
   {
+    id:"my-way-ylang",
     name:"My Way Ylang",
     brand:"Giorgio Armani",
     gender:"pour femme",
     category:"femme",
     thumbImg:"images/My Way Ylang.jpeg",
-    detailImg:"frag/myway .png",
     rating:4.0, votes:722,
     accords:[
       {label:"Sucré", color:"#f13d41"},
@@ -272,12 +316,12 @@ const PRODUCTS = [
     seasons:["Printemps","Été"]
   },
   {
+    id:"prada-paradoxe",
     name:"Prada Paradoxe",
     brand:"Prada",
     gender:"pour femme",
     category:"femme",
     thumbImg:"images/Prada Paradoxe.jpeg",
-    detailImg:"frag/Prada paradox.png",
     rating:3.9, votes:9265,
     accords:[
       {label:"Fleurs Blanches", color:"#e9edf3"},
@@ -292,12 +336,12 @@ const PRODUCTS = [
     seasons:["Printemps","Été","Automne"]
   },
   {
+    id:"sauvage-elixir",
     name:"Sauvage Elixir",
     brand:"Dior",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Sauvage Elixir.jpeg",
-    detailImg:"frag/Sauvage Elixir.png",
     rating:4.3, votes:17190,
     accords:[
       {label:"Épicé Chaud", color:"#c93a1a"},
@@ -312,12 +356,12 @@ const PRODUCTS = [
     seasons:["Hiver","Automne"]
   },
   {
+    id:"terre-hermes",
     name:"Terre d’Hermès",
     brand:"Hermès",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Terre d’Hermès.jpeg",
-    detailImg:"frag/Terre d’Hermès.png",
     rating:4.3, votes:26439,
     accords:[
       {label:"Agrume", color:"#f1ff5b"},
@@ -332,12 +376,12 @@ const PRODUCTS = [
     seasons:["Printemps","Été","Automne"]
   },
   {
+    id:"tommy",
     name:"Tommy",
     brand:"Tommy Hilfiger",
     gender:"pour homme",
     category:"homme",
     thumbImg:"images/Tommy.jpeg",
-    detailImg:"frag/Tommy.png",
     rating:3.9, votes:4951,
     accords:[
       {label:"Vert", color:"#1f8a2d"},
@@ -352,12 +396,12 @@ const PRODUCTS = [
     seasons:["Printemps","Été"]
   },
   {
+    id:"vert-malachite",
     name:"Armani Privé Vert Malachite",
     brand:"Giorgio Armani",
     gender:"pour homme et femme",
     category:"mixte",
     thumbImg:"images/Vert Malachite.jpeg",
-    detailImg:"frag/Vert Malachite.png",
     rating:4.1, votes:1826,
     accords:[
       {label:"Fleurs Blanches", color:"#e9edf3"},
@@ -375,13 +419,15 @@ const PRODUCTS = [
 
 let currentCategory = "all";
 
+// ---------- Render ----------
 function render(list){
   container.innerHTML = "";
-  list.forEach((p, idx)=>{
+
+  list.forEach((p)=>{
     const msg = `Je veux commander ${p.name}`;
     container.innerHTML += `
       <div class="card">
-        <img src="${p.thumbImg}" alt="${p.name}" data-idx="${idx}" class="thumb">
+        <img src="${p.thumbImg}" alt="${p.name}" data-id="${p.id}" class="thumb">
         <span class="name">${p.name}</span>
         <a href="${waLink(msg)}" target="_blank" rel="noreferrer">Commander</a>
       </div>
@@ -390,8 +436,7 @@ function render(list){
 
   container.querySelectorAll(".thumb").forEach(img=>{
     img.addEventListener("click", ()=>{
-      const index = Number(img.getAttribute("data-idx"));
-      openPerfumeModal(index);
+      openPerfumeModalById(img.getAttribute("data-id"));
     });
   });
 }
@@ -399,12 +444,13 @@ function render(list){
 function applyFilters(){
   const q = (searchInput.value || "").toLowerCase().trim();
 
-  const filtered = PRODUCTS.filter(p=>{
+  let filtered = PRODUCTS.filter(p=>{
     const matchCat = currentCategory === "all" ? true : p.category === currentCategory;
     const matchSearch = p.name.toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
 
+  filtered = sortBySmartSeason(filtered);
   render(filtered);
 }
 
@@ -419,57 +465,52 @@ filterButtons.forEach(btn=>{
 
 searchInput.addEventListener("input", applyFilters);
 
-render(PRODUCTS);
+// first render
+applyFilters();
 
-/* ===== MODAL ===== */
+// =====================
+// MODAL
+// =====================
 const pmodal = document.getElementById("perfumeModal");
 const pclose = document.getElementById("pmodalClose");
 
-function openPerfumeModal(index){
-  const p = PRODUCTS[index];
+function openPerfumeModalById(id){
+  const p = PRODUCTS.find(x => x.id === id);
+  if(!p) return;
 
   document.getElementById("pmTitle").textContent = p.name;
   document.getElementById("pmBrand").textContent = `${p.brand} • ${p.gender}`;
   document.getElementById("pmRating").textContent = p.rating ?? "—";
   document.getElementById("pmVotes").textContent = `(${p.votes ?? 0})`;
 
-  // ✅ الصورة الجديدة من فولدر frag/
+  // ✅ NO frag: use thumb image also in modal
   const img = document.getElementById("pmImg");
-  img.src = p.detailImg;
+  img.src = p.thumbImg;
   img.alt = p.name;
 
   // accords
-  const accordsEl = document.getElementById("pmAccords");
-  accordsEl.innerHTML = (p.accords || []).map(a=>`
+  document.getElementById("pmAccords").innerHTML = (p.accords || []).map(a=>`
     <div class="pm-accord" style="background:${a.color || "#c7a657"}">${a.label}</div>
   `).join("");
 
   // notes
-  const notesEl = document.getElementById("pmNotes");
-  notesEl.innerHTML = (p.notes || []).map(n=>`<div class="pm-note">${n}</div>`).join("");
+  document.getElementById("pmNotes").innerHTML = (p.notes || []).map(n=>`
+    <div class="pm-note">${n}</div>
+  `).join("");
 
   document.getElementById("pmLongevity").textContent = p.longevity || "—";
   document.getElementById("pmSillage").textContent = p.sillage || "—";
 
-  // time
-  const timeEl = document.getElementById("pmTime");
-  const times = ["Jour","Nuit"];
-  timeEl.innerHTML = times.map(t=>{
-    const on = (p.time || []).includes(t);
-    return `<span class="pm-pill ${on ? "on":""}">${t}</span>`;
-  }).join("");
+  // ✅ SMART TIME: show only best Jour/Nuit
+  const bestTime = getBestTime(p);
+  document.getElementById("pmTime").innerHTML = `<span class="pm-pill on">${bestTime}</span>`;
 
-  // seasons
-  const seasonsEl = document.getElementById("pmSeasons");
-  const seasons = ["Hiver","Printemps","Été","Automne"];
-  seasonsEl.innerHTML = seasons.map(s=>{
-    const on = (p.seasons || []).includes(s);
-    return `<span class="pm-pill ${on ? "on":""}">${s}</span>`;
-  }).join("");
+  // ✅ SMART SEASON: show only best season
+  const bestSeason = getBestSeason(p);
+  document.getElementById("pmSeasons").innerHTML = `<span class="pm-pill on">${bestSeason}</span>`;
 
-  // order link (بدون سعر)
-  const pmOrder = document.getElementById("pmOrder");
-  pmOrder.href = waLink(`Je veux commander ${p.name}`);
+  // order link (no price)
+  document.getElementById("pmOrder").href = waLink(`Je veux commander ${p.name}`);
 
   pmodal.classList.add("open");
   pmodal.setAttribute("aria-hidden","false");

@@ -1,146 +1,99 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DADIOS Fragrance</title>
-<link rel="icon" type="image/png" href="favicon.png.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DADIOS Fragrance</title>
 
-<link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="favicon.png.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
-  <!-- VIDEO POPUP (paste before </body>) -->
-<div id="videoModal" class="video-modal" aria-hidden="true">
-  <div class="video-card">
-    <button id="closeVideo" class="video-close" aria-label="Close">✕</button>
 
-    <video id="introVideo" class="video-el" playsinline muted preload="auto">
-      <source src="/assets/video.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+<body>
+  <header class="navbar">
+    <div class="logo">DADIOS</div>
+    <a class="btn-nav" href="https://wa.me/21656731891" target="_blank" rel="noreferrer">Order Now</a>
+  </header>
 
-    <div class="video-actions">
-      <button id="skipVideo" class="video-btn">Skip</button>
-      <button id="playWithSound" class="video-btn primary">Play with sound</button>
+  <section class="hero">
+    <h1>Luxury Inspired Fragrance</h1>
+    <p>Discover your scent</p>
+  </section>
+
+  <section class="filters">
+    <input type="text" id="searchInput" placeholder="Search perfume..." />
+    <button data-cat="all" class="fbtn active">All</button>
+    <button data-cat="homme" class="fbtn">Homme</button>
+    <button data-cat="femme" class="fbtn">Femme</button>
+    <button data-cat="mixte" class="fbtn">Mixte</button>
+  </section>
+
+  <section class="products" id="productContainer"></section>
+
+  <!-- PERFUME DETAILS MODAL -->
+  <div id="perfumeModal" class="pmodal" aria-hidden="true">
+    <div class="pmodal-card">
+      <button id="pmodalClose" class="pmodal-close" aria-label="Close">✕</button>
+
+      <div class="pmodal-head">
+        <div>
+          <h2 id="pmTitle">—</h2>
+          <p id="pmBrand" class="pm-muted">—</p>
+        </div>
+
+        <div class="pm-rate">
+          <span id="pmRating">—</span>
+          <small id="pmVotes">(0)</small>
+        </div>
+      </div>
+
+      <div class="pmodal-grid">
+        <div class="pm-left">
+          <!-- ✅ الصورة الجديدة من فولدر frag/ -->
+          <img id="pmImg" class="pm-img" src="" alt="">
+          <div class="pm-notes">
+            <h3>Notes</h3>
+            <div id="pmNotes" class="pm-notes-row"></div>
+          </div>
+        </div>
+
+        <div class="pm-right">
+          <div class="pm-box">
+            <h3>Accords principaux</h3>
+            <div id="pmAccords" class="pm-accords"></div>
+          </div>
+
+          <div class="pm-box">
+            <h3>Profil olfactif</h3>
+            <div class="pm-kpis">
+              <div class="pm-kpi"><b id="pmLongevity">—</b><small>Longévité</small></div>
+              <div class="pm-kpi"><b id="pmSillage">—</b><small>Sillage</small></div>
+            </div>
+          </div>
+
+          <div class="pm-box">
+            <h3>Journée</h3>
+            <div id="pmTime" class="pm-pills"></div>
+          </div>
+
+          <div class="pm-box">
+            <h3>Saisons</h3>
+            <div id="pmSeasons" class="pm-pills"></div>
+          </div>
+
+          <div class="pm-actions">
+            <a id="pmOrder" class="pm-order" href="#" target="_blank" rel="noreferrer">Commander</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<style>
-  .video-modal{
-    position:fixed; inset:0; display:none; place-items:center;
-    background:rgba(0,0,0,.65); z-index:9999; padding:16px;
-  }
-  .video-modal.open{ display:grid; }
-  .video-card{
-    width:min(900px, 96vw);
-    background:#0b2a1f; border-radius:18px; overflow:hidden;
-    box-shadow:0 20px 60px rgba(0,0,0,.45);
-    border:1px solid rgba(255,215,128,.25);
-    position:relative;
-  }
-  .video-close{
-    position:absolute; top:10px; right:10px;
-    background:rgba(0,0,0,.45); color:#fff; border:0;
-    width:36px; height:36px; border-radius:999px; cursor:pointer;
-  }
-  .video-el{ width:100%; height:auto; display:block; background:#000; }
-  .video-actions{
-    display:flex; gap:10px; justify-content:flex-end;
-    padding:12px; background:rgba(0,0,0,.18);
-  }
-  .video-btn{
-    border:1px solid rgba(255,215,128,.35);
-    background:transparent; color:#ffd88a;
-    padding:10px 14px; border-radius:12px; cursor:pointer;
-  }
-  .video-btn.primary{
-    background:#ffd88a; color:#0b2a1f; border-color:#ffd88a;
-    font-weight:600;
-  }
-</style>
+  <footer>© 2026 DADIOS Fragrance — Tunisia</footer>
 
-<script>
-  (function () {
-    const modal = document.getElementById("videoModal");
-    const video = document.getElementById("introVideo");
-    const closeBtn = document.getElementById("closeVideo");
-    const skipBtn = document.getElementById("skipVideo");
-    const soundBtn = document.getElementById("playWithSound");
-
-    // ✅ show only once (comment these 2 lines if you want every visit)
-    if (localStorage.getItem("intro_seen") === "1") return;
-
-    function openModal() {
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-      // Autoplay usually works only if muted
-      video.muted = true;
-      video.play().catch(() => {/* ignore */});
-    }
-
-    function closeModal() {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-      video.pause();
-      video.currentTime = 0;
-      localStorage.setItem("intro_seen", "1"); // show only once
-    }
-
-    // open on load
-    window.addEventListener("load", openModal);
-
-    // close actions
-    closeBtn.addEventListener("click", closeModal);
-    skipBtn.addEventListener("click", closeModal);
-
-    // click outside closes
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    // play with sound (requires user click)
-    soundBtn.addEventListener("click", () => {
-      video.muted = false;
-      video.play().catch(() => {/* ignore */});
-    });
-
-    // close when finished
-    video.addEventListener("ended", closeModal);
-
-    // Esc to close
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-    });
-  })();
-</script>
-<body>
-
-<header class="navbar">
-  <div class="logo">DADIOS</div>
-  <a class="btn-nav" href="https://wa.me/21656731891" target="_blank">Order Now</a>
-</header>
-
-<section class="hero">
-  <h1>Luxury Inspired Fragrance</h1>
-  <p>Premium 50ML Perfumes — Only 25 DT</p>
-</section>
-
-<section class="filters">
-  <input type="text" id="searchInput" placeholder="Search perfume...">
-  <button onclick="filterCategory('all')">All</button>
-  <button onclick="filterCategory('homme')">Homme</button>
-  <button onclick="filterCategory('femme')">Femme</button>
-</section>
-
-<section class="products" id="productContainer"></section>
-
-<footer>
-  © 2026 DADIOS Fragrance — Tunisia
-</footer>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

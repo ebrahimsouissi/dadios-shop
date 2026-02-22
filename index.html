@@ -11,6 +11,111 @@
 
 <link rel="stylesheet" href="styles.css">
 </head>
+  <!-- VIDEO POPUP (paste before </body>) -->
+<div id="videoModal" class="video-modal" aria-hidden="true">
+  <div class="video-card">
+    <button id="closeVideo" class="video-close" aria-label="Close">✕</button>
+
+    <video id="introVideo" class="video-el" playsinline muted preload="auto">
+      <source src="video.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="video-actions">
+      <button id="skipVideo" class="video-btn">Skip</button>
+      <button id="playWithSound" class="video-btn primary">Play with sound</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .video-modal{
+    position:fixed; inset:0; display:none; place-items:center;
+    background:rgba(0,0,0,.65); z-index:9999; padding:16px;
+  }
+  .video-modal.open{ display:grid; }
+  .video-card{
+    width:min(900px, 96vw);
+    background:#0b2a1f; border-radius:18px; overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+    border:1px solid rgba(255,215,128,.25);
+    position:relative;
+  }
+  .video-close{
+    position:absolute; top:10px; right:10px;
+    background:rgba(0,0,0,.45); color:#fff; border:0;
+    width:36px; height:36px; border-radius:999px; cursor:pointer;
+  }
+  .video-el{ width:100%; height:auto; display:block; background:#000; }
+  .video-actions{
+    display:flex; gap:10px; justify-content:flex-end;
+    padding:12px; background:rgba(0,0,0,.18);
+  }
+  .video-btn{
+    border:1px solid rgba(255,215,128,.35);
+    background:transparent; color:#ffd88a;
+    padding:10px 14px; border-radius:12px; cursor:pointer;
+  }
+  .video-btn.primary{
+    background:#ffd88a; color:#0b2a1f; border-color:#ffd88a;
+    font-weight:600;
+  }
+</style>
+
+<script>
+  (function () {
+    const modal = document.getElementById("videoModal");
+    const video = document.getElementById("introVideo");
+    const closeBtn = document.getElementById("closeVideo");
+    const skipBtn = document.getElementById("skipVideo");
+    const soundBtn = document.getElementById("playWithSound");
+
+    // ✅ show only once (comment these 2 lines if you want every visit)
+    if (localStorage.getItem("intro_seen") === "1") return;
+
+    function openModal() {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      // Autoplay usually works only if muted
+      video.muted = true;
+      video.play().catch(() => {/* ignore */});
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      video.pause();
+      video.currentTime = 0;
+      localStorage.setItem("intro_seen", "1"); // show only once
+    }
+
+    // open on load
+    window.addEventListener("load", openModal);
+
+    // close actions
+    closeBtn.addEventListener("click", closeModal);
+    skipBtn.addEventListener("click", closeModal);
+
+    // click outside closes
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // play with sound (requires user click)
+    soundBtn.addEventListener("click", () => {
+      video.muted = false;
+      video.play().catch(() => {/* ignore */});
+    });
+
+    // close when finished
+    video.addEventListener("ended", closeModal);
+
+    // Esc to close
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
+  })();
+</script>
 <body>
 
 <header class="navbar">

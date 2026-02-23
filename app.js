@@ -428,6 +428,9 @@ function render(list){
     container.innerHTML += `
       <div class="card">
         <img src="${p.thumbImg}" alt="${p.name}" data-id="${p.id}" class="thumb">
+
+        <div class="img-note">Découvrez les détails ↓</div>
+
         <span class="name">${p.name}</span>
         <a href="${waLink(msg)}" target="_blank" rel="noreferrer">Commander</a>
       </div>

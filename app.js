@@ -542,7 +542,11 @@ function closePerfumeModal(){
 pclose.addEventListener("click", closePerfumeModal);
 pmodal.addEventListener("click",(e)=>{ if(e.target===pmodal) closePerfumeModal(); });
 document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && pmodal.classList.contains("open")) closePerfumeModal(); });
-function showBestSellers(){
-  const best = PRODUCTS.filter(p => BEST_SELLERS_IDS.includes(p.id));
-  render(best);
+const bestBtn = document.getElementById("bestBtn");
+if (bestBtn){
+  bestBtn.addEventListener("click", (e)=>{
+    e.preventDefault();
+    showBestSellers();
+    document.getElementById("productContainer").scrollIntoView({behavior:"smooth"});
+  });
 }

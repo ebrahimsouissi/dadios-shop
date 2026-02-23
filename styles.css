@@ -498,3 +498,9 @@ footer{
   #searchInput{ width:92%; }
   .card img{ height:320px; }
 }
+@media (hover: none) and (pointer: coarse){
+  .img-overlay{
+    opacity:1;                 /* always visible */
+    background:rgba(0,0,0,.28);
+  }
+}

@@ -448,12 +448,26 @@ function render(list){
         <span class="name">${p.name}</span>
 
         <div class="card-actions">
-          <button class="addBtn" data-add="${p.id}">Ajouter</button>
-          <a href="${waLink(msg)}" target="_blank">Commander</a>
+          <button class="addBtn" type="button" data-add="${p.id}">Ajouter</button>
+          <a href="${waLink(msg)}" target="_blank" rel="noopener">Commander</a>
         </div>
       </div>
     `;
   });
+
+  
+  // add to cart
+  container.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.getAttribute("data-add");
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(p) addToCart(p);
+      openCart(); // إذا ما تحبش يفتح، نحّي السطر هذا
+    });
+  });
+}
 
   container.querySelectorAll(".thumb").forEach(img=>{
     img.addEventListener("click", ()=>{

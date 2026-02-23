@@ -20,6 +20,9 @@
   <!-- NAV -->
   <header class="navbar">
     <div class="logo">DADIOS</div>
+    <button id="cartBtn" class="cartBtn" type="button" aria-label="Panier">
+    🛒 <span id="cartCount">0</span>
+  </button>
 
   </header>
 
@@ -104,7 +107,29 @@
       </div>
     </div>
   </div>
+<!-- CART OVERLAY + DRAWER -->
+<div id="cartOverlay" class="overlay hidden"></div>
 
+<aside id="cartDrawer" class="drawer hidden" aria-hidden="true">
+  <div class="drawerHead">
+    <h3>Panier</h3>
+    <button id="cartClose" class="xbtn" type="button" aria-label="Close">✕</button>
+  </div>
+
+  <div id="cartItems" class="cartItems"></div>
+
+  <div class="drawerFoot">
+    <div class="totalRow">
+      <span>Total</span>
+      <strong id="cartTotal">0 DT</strong>
+    </div>
+
+    <div class="cartActions">
+      <button id="cartClear" class="btn ghost" type="button">Vider</button>
+      <a id="cartCheckout" class="btn primary" target="_blank" rel="noopener">Commander WhatsApp</a>
+    </div>
+  </div>
+</aside>
   <footer>© 2026 DADIOS Fragrance — Tunisia</footer>
 
   <script src="app.js"></script>

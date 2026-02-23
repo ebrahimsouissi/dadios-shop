@@ -426,14 +426,14 @@ function render(list){
   list.forEach((p)=>{
     const msg = `Je veux commander ${p.name}`;
     container.innerHTML += `
-      <div class="card">
-        <img src="${p.thumbImg}" alt="${p.name}" data-id="${p.id}" class="thumb">
+    <div class="card">
+  <img src="${p.thumbImg}" alt="${p.name}" data-id="${p.id}" class="thumb">
 
-        <div class="img-note">Découvrez les détails ↓</div>
+  <div class="img-note">Découvrez les détails ↓</div>
 
-        <span class="name">${p.name}</span>
-        <a href="${waLink(msg)}" target="_blank" rel="noreferrer">Commander</a>
-      </div>
+  <span class="name">${p.name}</span>
+  <a href="${waLink(msg)}" target="_blank">Commander</a>
+</div>
     `;
   });
 

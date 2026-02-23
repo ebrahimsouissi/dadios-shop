@@ -1,4 +1,4 @@
-// =====================
+/// =====================
 // app.js (NO frag + SMART Season + SMART Day/Night)
 // =====================
 
@@ -10,6 +10,9 @@ function waLink(message){
   const phone = "21656731891";
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
+const PRICE_DT = 25;
+const SIZE = "50ML";
+const CART_KEY = "dadios_cart_v1";
 
 // ---------- Helpers ----------
 function getCurrentSeason(){
@@ -50,7 +53,7 @@ function sortBySmartSeason(list){
   });
 }
 
-/*
+/*é    
   ✅ thumbImg = الصورة اللي تبان في القائمة + في المودال (NO frag)
   ✅ id UNIQUE
 */
@@ -437,19 +440,38 @@ function render(list){
   list.forEach((p)=>{
     const msg = `Je veux commander ${p.name}`;
     container.innerHTML += `
-  <div class="card">
-  <img src="${p.thumbImg}" alt="${p.name}" data-id="${p.id}" class="thumb">
+      <div class="card">
+        <img src="${p.thumbImg}" alt="${p.name}" data-id="${p.id}" class="thumb">
 
-  <div class="img-overlay">
-    Cliquez pour voir les détails
-  </div>
+        <div class="img-overlay">Cliquez pour voir les détails</div>
 
-  <span class="name">${p.name}</span>
-  <a href="${waLink(msg)}" target="_blank">Commander</a>
-</div>
+        <span class="name">${p.name}</span>
+
+        <div class="card-actions">
+          <button class="addBtn" data-add="${p.id}">Ajouter</button>
+          <a href="${waLink(msg)}" target="_blank">Commander</a>
+        </div>
+      </div>
     `;
   });
 
+  container.querySelectorAll(".thumb").forEach(img=>{
+    img.addEventListener("click", ()=>{
+      openPerfumeModalById(img.getAttribute("data-id"));
+    });
+  });
+
+  // ✅ Add-to-cart buttons
+  container.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      const id = btn.getAttribute("data-add");
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(p) addToCart(p);
+      openCart(); // اختياري: يفتح panier بعد الإضافة
+    });
+  });
+}
   container.querySelectorAll(".thumb").forEach(img=>{
     img.addEventListener("click", ()=>{
       openPerfumeModalById(img.getAttribute("data-id"));
@@ -550,3 +572,114 @@ if (bestBtn){
     document.getElementById("productContainer").scrollIntoView({behavior:"smooth"});
   });
 }
+// =====================
+// CART
+// =====================
+const cartBtn = document.getElementById("cartBtn");
+const cartCountEl = document.getElementById("cartCount");
+const cartOverlay = document.getElementById("cartOverlay");
+const cartDrawer = document.getElementById("cartDrawer");
+const cartClose = document.getElementById("cartClose");
+const cartItemsEl = document.getElementById("cartItems");
+const cartTotalEl = document.getElementById("cartTotal");
+const cartClearBtn = document.getElementById("cartClear");
+const cartCheckout = document.getElementById("cartCheckout");
+
+function loadCart(){
+  try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+  catch { return []; }
+}
+function saveCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+function cartCount(cart){ return cart.reduce((s,it)=>s+it.qty,0); }
+function cartTotal(cart){ return cart.reduce((s,it)=>s+(it.qty*it.price),0); }
+
+function addToCart(p){
+  const cart = loadCart();
+  const found = cart.find(x=>x.id===p.id);
+  if(found) found.qty += 1;
+  else cart.push({ id:p.id, name:p.name, img:p.thumbImg, qty:1, price:PRICE_DT, size:SIZE });
+  saveCart(cart);
+  refreshCartUI();
+}
+
+function incQty(id){
+  const cart = loadCart();
+  const it = cart.find(x=>x.id===id);
+  if(!it) return;
+  it.qty += 1;
+  saveCart(cart);
+  refreshCartUI();
+}
+function decQty(id){
+  let cart = loadCart();
+  const it = cart.find(x=>x.id===id);
+  if(!it) return;
+  it.qty -= 1;
+  if(it.qty<=0) cart = cart.filter(x=>x.id!==id);
+  saveCart(cart);
+  refreshCartUI();
+}
+function removeItem(id){
+  const cart = loadCart().filter(x=>x.id!==id);
+  saveCart(cart);
+  refreshCartUI();
+}
+function clearCart(){
+  saveCart([]);
+  refreshCartUI();
+}
+
+function buildCheckoutMessage(cart){
+  const lines = cart.map(it => `- ${it.name} x${it.qty} (${it.size}) = ${it.qty*it.price} DT`);
+  const total = cartTotal(cart);
+  return `Bonjour, je veux commander (DADIOS):\n${lines.join("\n")}\n\nTotal: ${total} DT.\nNom: \nAdresse: \nTéléphone:`;
+}
+
+function openCart(){
+  cartOverlay.classList.remove("hidden");
+  cartDrawer.classList.remove("hidden");
+  cartDrawer.setAttribute("aria-hidden","false");
+}
+function closeCart(){
+  cartOverlay.classList.add("hidden");
+  cartDrawer.classList.add("hidden");
+  cartDrawer.setAttribute("aria-hidden","true");
+}
+
+function refreshCartUI(){
+  const cart = loadCart();
+  cartCountEl.textContent = String(cartCount(cart));
+
+  cartItemsEl.innerHTML = cart.length ? cart.map(it => `
+    <div class="cartRow">
+      <img src="${it.img}" alt="${it.name}">
+      <div>
+        <div style="font-weight:700">${it.name}</div>
+        <div style="opacity:.8;font-size:.9rem">${it.size} • ${it.price} DT</div>
+        <div class="qty">
+          <button class="qbtn" data-dec="${it.id}">−</button>
+          <strong>${it.qty}</strong>
+          <button class="qbtn" data-inc="${it.id}">+</button>
+          <button class="qbtn" data-rm="${it.id}">🗑</button>
+        </div>
+      </div>
+      <strong>${it.qty*it.price} DT</strong>
+    </div>
+  `).join("") : `<p style="opacity:.8">Panier vide.</p>`;
+
+  cartTotalEl.textContent = `${cartTotal(cart)} DT`;
+  cartCheckout.href = waLink(buildCheckoutMessage(cart));
+
+  cartItemsEl.querySelectorAll("[data-inc]").forEach(b=>b.addEventListener("click", ()=>incQty(b.dataset.inc)));
+  cartItemsEl.querySelectorAll("[data-dec]").forEach(b=>b.addEventListener("click", ()=>decQty(b.dataset.dec)));
+  cartItemsEl.querySelectorAll("[data-rm]").forEach(b=>b.addEventListener("click", ()=>removeItem(b.dataset.rm)));
+}
+
+// events
+if(cartBtn) cartBtn.addEventListener("click", openCart);
+if(cartClose) cartClose.addEventListener("click", closeCart);
+if(cartOverlay) cartOverlay.addEventListener("click", closeCart);
+if(cartClearBtn) cartClearBtn.addEventListener("click", clearCart);
+
+// init
+refreshCartUI();

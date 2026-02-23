@@ -257,3 +257,34 @@ footer{
   max-height:90vh;
   overflow-y:auto;
 }
+.hero{
+  display:grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap:24px;
+  align-items:center;
+  padding:24px 16px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.hero-media img{
+  width:100%;
+  height:auto;
+  border-radius:18px;
+  display:block;
+}
+
+.hero-content h1{
+  margin:0 0 10px;
+}
+
+.hero-content p{
+  margin:0 0 16px;
+  opacity:.9;
+}
+
+/* Mobile */
+@media (max-width: 900px){
+  .hero{ grid-template-columns:1fr; }
+  .hero-content{ text-align:left; }
+}

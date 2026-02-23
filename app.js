@@ -61,7 +61,7 @@ const PRODUCTS = [
     brand:"Mugler",
     gender:"pour femme",
     category:"femme",
-    thumbImg:"images/alien.jpeg",
+    thumbImg:"images/Alien.jpeg",
     rating:4.0, votes:34239,
     accords:[
       {label:"Fleurs Blanches", color:"#e9edf3"},

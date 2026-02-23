@@ -55,6 +55,7 @@ function sortBySmartSeason(list){
   ✅ id UNIQUE
 */
 const PRODUCTS = [
+  
   {
     id:"alien",
     name:"Alien",
@@ -416,6 +417,16 @@ const PRODUCTS = [
     seasons:["Hiver","Automne"]
   },
 ];
+const BEST_SELLERS_IDS = [
+  "alien",            // femme
+  "prada-paradoxe",   // femme
+  "sauvage-elixir",   // homme
+  "bleu-de-chanel-edp"// homme (تأكد id متاعك)
+];
+function showBestSellers(){
+  const best = PRODUCTS.filter(p => BEST_SELLERS_IDS.includes(p.id));
+  render(best);
+}
 
 let currentCategory = "all";
 
@@ -531,3 +542,7 @@ function closePerfumeModal(){
 pclose.addEventListener("click", closePerfumeModal);
 pmodal.addEventListener("click",(e)=>{ if(e.target===pmodal) closePerfumeModal(); });
 document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && pmodal.classList.contains("open")) closePerfumeModal(); });
+function showBestSellers(){
+  const best = PRODUCTS.filter(p => BEST_SELLERS_IDS.includes(p.id));
+  render(best);
+}

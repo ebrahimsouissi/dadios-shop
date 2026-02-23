@@ -501,10 +501,9 @@ footer{
 @media (hover: none) and (pointer: coarse){
   .img-overlay{
     opacity:1;
-    background:rgba(0,0,0,.55);
+    background:none;        /* no dark layer */
     align-items:flex-start;
     justify-content:flex-start;
-    padding:10px 12px;
+    padding:10px;
     font-size:0.8rem;
   }
-}

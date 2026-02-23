@@ -1,5 +1,5 @@
 /* =========================
-   THEME
+   THEME (DARK GREEN LUXURY)
 ========================= */
 
 :root{
@@ -44,6 +44,7 @@ body{
   background:rgba(11,42,24,.85);
   backdrop-filter:blur(10px);
   z-index:1000;
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
 
 .logo{
@@ -58,7 +59,7 @@ body{
   color:var(--gold);
   text-decoration:none;
   border-radius:30px;
-  transition:.3s;
+  transition:.3s ease;
 }
 
 .btn-nav:hover{
@@ -67,14 +68,14 @@ body{
 }
 
 /* =========================
-   HERO
+   HERO (BG ONLY HERE)
 ========================= */
 
 .hero{
   height:100vh;
   background:
-    linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.75)),
-    url("images/dadios-hero.png");
+    linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.78)),
+    url("images/dadios-bg.png");
   background-size:cover;
   background-position:center;
   display:flex;
@@ -86,7 +87,7 @@ body{
 
 .hero-overlay{
   max-width:700px;
-  padding-top:80px;
+  padding-top:80px; /* navbar space */
 }
 
 .hero h1{
@@ -98,6 +99,7 @@ body{
 .hero p{
   font-size:1.1rem;
   margin-bottom:30px;
+  opacity:.95;
 }
 
 /* =========================
@@ -108,6 +110,8 @@ body{
   padding:50px 20px 30px;
   text-align:center;
   background:var(--green-deep);
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
 
 #searchInput{
@@ -116,6 +120,8 @@ body{
   border:none;
   width:250px;
   margin-bottom:15px;
+  outline:none;
+  font-family:Arial, sans-serif;
 }
 
 .fbtn{
@@ -123,10 +129,12 @@ body{
   margin:5px;
   border-radius:20px;
   border:1px solid var(--gold);
-  background:none;
+  background:transparent;
   color:var(--gold);
   cursor:pointer;
-  transition:.3s;
+  transition:.3s ease;
+  font-family:Arial, sans-serif;
+  font-weight:700;
 }
 
 .fbtn.active,
@@ -136,7 +144,7 @@ body{
 }
 
 /* =========================
-   PRODUCTS
+   PRODUCTS GRID + CARDS
 ========================= */
 
 .products{
@@ -152,15 +160,16 @@ body{
   border-radius:16px;
   text-align:center;
   border:1px solid rgba(199,166,87,.25);
-  transition:.3s;
+  transition:.3s ease;
   display:flex;
   flex-direction:column;
   align-items:center;
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
 }
 
 .card:hover{
   transform:translateY(-6px);
-  box-shadow:0 15px 35px rgba(0,0,0,.4);
+  box-shadow:0 18px 44px rgba(0,0,0,.45);
 }
 
 .card img{
@@ -170,14 +179,21 @@ body{
   border-radius:14px;
   margin-bottom:12px;
   cursor:pointer;
+  display:block;
 }
 
-/* 👇 Discover text */
+/* text under image */
 .img-note{
   font-size:0.9rem;
   color:var(--gold);
   margin-bottom:10px;
   font-family:Arial, sans-serif;
+  opacity:.9;
+  transition:.2s ease;
+}
+
+.card:hover .img-note{
+  opacity:1;
 }
 
 .name{
@@ -193,22 +209,29 @@ body{
   background:var(--gold);
   color:#000;
   text-decoration:none;
-  font-weight:bold;
+  font-weight:800;
+  font-family:Arial, sans-serif;
+  transition:.2s ease;
+}
+
+.card a:hover{
+  opacity:.88;
 }
 
 /* =========================
-   MODAL
+   MODERN LUXURY MODAL
 ========================= */
 
 .pmodal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
   display:none;
   align-items:center;
   justify-content:center;
-  padding:20px;
-  z-index:2000;
+  padding:30px;
+  z-index:3000;
 }
 
 .pmodal.open{
@@ -216,60 +239,167 @@ body{
 }
 
 .pmodal-card{
-  background:var(--green-deep);
   width:100%;
-  max-width:950px;
-  max-height:90vh;
+  max-width:1050px;
+  max-height:92vh;
   overflow-y:auto;
-  border-radius:18px;
-  padding:25px;
+  -webkit-overflow-scrolling:touch;
+  background:rgba(11,42,24,.95);
+  border-radius:22px;
+  padding:35px;
+  border:1px solid rgba(199,166,87,.35);
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+  animation:fadeUp .35s ease;
+  position:relative;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
 }
 
 .pmodal-close{
   position:absolute;
-  top:15px;
-  right:20px;
-  background:none;
-  border:none;
+  top:20px;
+  right:25px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,.2);
   color:#fff;
-  font-size:1.5rem;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  font-size:18px;
   cursor:pointer;
+  transition:.3s ease;
+}
+
+.pmodal-close:hover{
+  background:var(--gold);
+  color:#000;
+  border-color:var(--gold);
 }
 
 .pmodal-head{
   display:flex;
   justify-content:space-between;
-  margin-bottom:20px;
+  align-items:center;
+  margin-bottom:35px;
+  padding-bottom:20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
 
+#pmTitle{
+  font-size:2rem;
+  color:var(--gold);
+  letter-spacing:.5px;
+}
+
+.pm-muted{
+  font-size:0.95rem;
+  opacity:.8;
+  font-family:Arial, sans-serif;
+}
+
+.pm-rate{
+  display:flex;
+  gap:8px;
+  align-items:baseline;
+  color:var(--gold);
+  font-family:Arial, sans-serif;
+}
+
+.pm-rate span{
+  font-size:1.4rem;
+  font-weight:800;
+}
+
+.pmodal-grid{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:40px;
+}
+
+/* image */
 .pm-img{
   width:100%;
-  border-radius:15px;
-  margin-bottom:15px;
+  height:420px;
+  object-fit:cover;
+  border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  transition:.4s ease;
 }
 
+.pm-img:hover{
+  transform:scale(1.04);
+}
+
+/* boxes */
 .pm-box{
-  margin-bottom:15px;
+  background:rgba(0,0,0,.25);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  border:1px solid rgba(255,255,255,.05);
 }
 
-.pm-accord{
-  padding:6px 12px;
-  border-radius:20px;
-  margin:4px;
-  display:inline-block;
-  font-size:0.8rem;
-  font-weight:bold;
-  color:#000;
+.pm-box h3{
+  color:var(--gold);
+  margin-bottom:15px;
+  font-size:1rem;
+  letter-spacing:.5px;
+}
+
+.pm-notes-row,
+.pm-accords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
 }
 
 .pm-note{
-  background:var(--gold);
-  color:#000;
-  padding:5px 12px;
-  border-radius:15px;
-  margin:4px;
+  background:rgba(199,166,87,.15);
+  border:1px solid rgba(199,166,87,.4);
+  padding:6px 14px;
+  border-radius:20px;
   display:inline-block;
-  font-size:0.8rem;
+  font-size:0.85rem;
+  font-family:Arial, sans-serif;
+}
+
+.pm-accord{
+  padding:7px 14px;
+  border-radius:20px;
+  font-weight:800;
+  font-size:0.85rem;
+  color:#111;
+  font-family:Arial, sans-serif;
+}
+
+.pm-kpis{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.pm-kpi{
+  flex:1;
+  min-width:170px;
+  background:rgba(0,0,0,.35);
+  padding:15px;
+  border-radius:15px;
+  text-align:center;
+}
+
+.pm-kpi b{
+  display:block;
+  font-size:1.1rem;
+  color:var(--gold);
+  margin-bottom:4px;
+}
+
+.pm-kpi small{
+  opacity:.85;
+  font-family:Arial, sans-serif;
 }
 
 .pm-pills{
@@ -279,10 +409,12 @@ body{
 }
 
 .pm-pill{
-  padding:6px 14px;
-  border-radius:20px;
-  border:1px solid var(--gold);
-  font-size:0.8rem;
+  padding:8px 16px;
+  border-radius:25px;
+  border:1px solid rgba(199,166,87,.4);
+  font-size:0.85rem;
+  font-family:Arial, sans-serif;
+  color:var(--gold);
 }
 
 .pm-pill.on{
@@ -290,14 +422,28 @@ body{
   color:#000;
 }
 
+/* order button */
+.pm-actions{
+  margin-top:10px;
+  text-align:right;
+}
+
 .pm-order{
   display:inline-block;
-  padding:10px 25px;
-  border-radius:25px;
-  background:var(--gold);
+  margin-top:8px;
+  padding:12px 30px;
+  border-radius:30px;
+  background:linear-gradient(45deg,#C7A657,#e8c873);
   color:#000;
+  font-weight:900;
   text-decoration:none;
-  font-weight:bold;
+  font-family:Arial, sans-serif;
+  transition:.3s ease;
+}
+
+.pm-order:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(199,166,87,.5);
 }
 
 /* =========================
@@ -309,6 +455,9 @@ footer{
   padding:30px;
   background:var(--green-deep);
   font-size:0.9rem;
+  color:rgba(255,255,255,.75);
+  font-family:Arial, sans-serif;
+  border-top:1px solid rgba(255,255,255,.06);
 }
 
 /* =========================
@@ -316,10 +465,14 @@ footer{
 ========================= */
 
 @media(max-width:900px){
-  .hero h1{ font-size:2.3rem; }
-}
-
-@media(max-width:600px){
   .navbar{ padding:15px 20px; }
   .products{ padding:40px 20px; }
+  .hero h1{ font-size:2.3rem; }
+  .pmodal-grid{ grid-template-columns:1fr; }
+  .pm-img{ height:300px; }
+}
+
+@media(max-width:480px){
+  #searchInput{ width:92%; }
+  .card img{ height:320px; }
 }

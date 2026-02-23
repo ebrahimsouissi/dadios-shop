@@ -499,21 +499,12 @@ footer{
   .card img{ height:320px; }
 }
 @media (hover: none) and (pointer: coarse){
-
   .img-overlay{
     opacity:1;
-    background:transparent;
+    background:rgba(0,0,0,.55);
     align-items:flex-start;
     justify-content:flex-start;
-    padding:0;
+    padding:10px 12px;
+    font-size:0.8rem;
   }
-
-  .img-overlay::before{
-    content:"Cliquez pour voir les détails";
-    background:rgba(0,0,0,.55);
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:0.75rem;
-  }
-
 }

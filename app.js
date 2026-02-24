@@ -1,17 +1,23 @@
-/// =====================
-// app.js (NO frag + SMART Season + SMART Day/Night)
+// =====================
+// app.js (NO frag + SMART Season + SMART Day/Night) + CART
+// Copy/Paste FULL FILE
 // =====================
 
 const container = document.getElementById("productContainer");
 const searchInput = document.getElementById("searchInput");
 const filterButtons = document.querySelectorAll(".fbtn");
 
+// WhatsApp
 function waLink(message){
   const phone = "21656731891";
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
+
+// Shop constants
 const PRICE_DT = 25;
 const SIZE = "50ML";
+
+// Cart storage
 const CART_KEY = "dadios_cart_v1";
 
 // ---------- Helpers ----------
@@ -49,16 +55,15 @@ function sortBySmartSeason(list){
     const bBest = getBestSeason(b);
     const aScore = aBest === cur ? 1 : 0;
     const bScore = bBest === cur ? 1 : 0;
-    return bScore - aScore; // current season first
+    return bScore - aScore;
   });
 }
 
-/*é    
-  ✅ thumbImg = الصورة اللي تبان في القائمة + في المودال (NO frag)
+/*
+  ✅ thumbImg = image in list + modal
   ✅ id UNIQUE
 */
 const PRODUCTS = [
-  
   {
     id:"alien",
     name:"Alien",
@@ -420,12 +425,9 @@ const PRODUCTS = [
     seasons:["Hiver","Automne"]
   },
 ];
-const BEST_SELLERS_IDS = [
-  "alien",            // femme
-  "prada-paradoxe",   // femme
-  "sauvage-elixir",   // homme
-  "bleu-de-chanel-edp"// homme (تأكد id متاعك)
-];
+
+// Best sellers
+const BEST_SELLERS_IDS = ["alien","prada-paradoxe","sauvage-elixir","bleu-de-chanel-edp"];
 function showBestSellers(){
   const best = PRODUCTS.filter(p => BEST_SELLERS_IDS.includes(p.id));
   render(best);
@@ -433,7 +435,7 @@ function showBestSellers(){
 
 let currentCategory = "all";
 
-// ---------- Render ----------
+// ---------- Render (cards) ----------
 function render(list){
   container.innerHTML = "";
 
@@ -442,9 +444,7 @@ function render(list){
     container.innerHTML += `
       <div class="card">
         <img src="${p.thumbImg}" alt="${p.name}" data-id="${p.id}" class="thumb">
-
         <div class="img-overlay">Cliquez pour voir les détails</div>
-
         <span class="name">${p.name}</span>
 
         <div class="card-actions">
@@ -455,7 +455,13 @@ function render(list){
     `;
   });
 
-  
+  // open modal
+  container.querySelectorAll(".thumb").forEach(img=>{
+    img.addEventListener("click", ()=>{
+      openPerfumeModalById(img.getAttribute("data-id"));
+    });
+  });
+
   // add to cart
   container.querySelectorAll("[data-add]").forEach(btn=>{
     btn.addEventListener("click", (e)=>{
@@ -464,31 +470,7 @@ function render(list){
       const id = btn.getAttribute("data-add");
       const p = PRODUCTS.find(x=>x.id===id);
       if(p) addToCart(p);
-      openCart(); // إذا ما تحبش يفتح، نحّي السطر هذا
-    });
-  });
-}
-
-  container.querySelectorAll(".thumb").forEach(img=>{
-    img.addEventListener("click", ()=>{
-      openPerfumeModalById(img.getAttribute("data-id"));
-    });
-  });
-
-  // ✅ Add-to-cart buttons
-  container.querySelectorAll("[data-add]").forEach(btn=>{
-    btn.addEventListener("click", (e)=>{
-      e.stopPropagation();
-      const id = btn.getAttribute("data-add");
-      const p = PRODUCTS.find(x=>x.id===id);
-      if(p) addToCart(p);
-      openCart(); // اختياري: يفتح panier بعد الإضافة
-    });
-  });
-}
-  container.querySelectorAll(".thumb").forEach(img=>{
-    img.addEventListener("click", ()=>{
-      openPerfumeModalById(img.getAttribute("data-id"));
+      openCart();
     });
   });
 }
@@ -535,17 +517,14 @@ function openPerfumeModalById(id){
   document.getElementById("pmRating").textContent = p.rating ?? "—";
   document.getElementById("pmVotes").textContent = `(${p.votes ?? 0})`;
 
-  // ✅ NO frag: use thumb image also in modal
   const img = document.getElementById("pmImg");
   img.src = p.thumbImg;
   img.alt = p.name;
 
-  // accords
   document.getElementById("pmAccords").innerHTML = (p.accords || []).map(a=>`
     <div class="pm-accord" style="background:${a.color || "#c7a657"}">${a.label}</div>
   `).join("");
 
-  // notes
   document.getElementById("pmNotes").innerHTML = (p.notes || []).map(n=>`
     <div class="pm-note">${n}</div>
   `).join("");
@@ -553,16 +532,13 @@ function openPerfumeModalById(id){
   document.getElementById("pmLongevity").textContent = p.longevity || "—";
   document.getElementById("pmSillage").textContent = p.sillage || "—";
 
-  // ✅ SMART TIME: show only best Jour/Nuit
   const bestTime = getBestTime(p);
   document.getElementById("pmTime").innerHTML = `<span class="pm-pill on">${bestTime}</span>`;
 
-  // ✅ SMART SEASON: show only best season
   const bestSeason = getBestSeason(p);
   document.getElementById("pmSeasons").innerHTML = `<span class="pm-pill on">${bestSeason}</span>`;
 
-  // order link (no price)
-  document.getElementById("pmOrder").href = waLink(`Je veux commander ${p.name}`);
+  document.getElementById("pmOrder").href = waLink(`Je veux commander ${p.name} (${SIZE} - ${PRICE_DT} DT)`);
 
   pmodal.classList.add("open");
   pmodal.setAttribute("aria-hidden","false");
@@ -575,17 +551,17 @@ function closePerfumeModal(){
   document.body.style.overflow = "auto";
 }
 
-pclose.addEventListener("click", closePerfumeModal);
-pmodal.addEventListener("click",(e)=>{ if(e.target===pmodal) closePerfumeModal(); });
+pclose?.addEventListener("click", closePerfumeModal);
+pmodal?.addEventListener("click",(e)=>{ if(e.target===pmodal) closePerfumeModal(); });
 document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && pmodal.classList.contains("open")) closePerfumeModal(); });
+
 const bestBtn = document.getElementById("bestBtn");
-if (bestBtn){
-  bestBtn.addEventListener("click", (e)=>{
-    e.preventDefault();
-    showBestSellers();
-    document.getElementById("productContainer").scrollIntoView({behavior:"smooth"});
-  });
-}
+bestBtn?.addEventListener("click", (e)=>{
+  e.preventDefault();
+  showBestSellers();
+  document.getElementById("productContainer")?.scrollIntoView({behavior:"smooth"});
+});
+
 // =====================
 // CART
 // =====================
@@ -650,17 +626,19 @@ function buildCheckoutMessage(cart){
 }
 
 function openCart(){
-  cartOverlay.classList.remove("hidden");
-  cartDrawer.classList.remove("hidden");
-  cartDrawer.setAttribute("aria-hidden","false");
+  cartOverlay?.classList.remove("hidden");
+  cartDrawer?.classList.remove("hidden");
+  cartDrawer?.setAttribute("aria-hidden","false");
 }
 function closeCart(){
-  cartOverlay.classList.add("hidden");
-  cartDrawer.classList.add("hidden");
-  cartDrawer.setAttribute("aria-hidden","true");
+  cartOverlay?.classList.add("hidden");
+  cartDrawer?.classList.add("hidden");
+  cartDrawer?.setAttribute("aria-hidden","true");
 }
 
 function refreshCartUI(){
+  if(!cartCountEl || !cartItemsEl || !cartTotalEl || !cartCheckout) return;
+
   const cart = loadCart();
   cartCountEl.textContent = String(cartCount(cart));
 
@@ -690,10 +668,10 @@ function refreshCartUI(){
 }
 
 // events
-if(cartBtn) cartBtn.addEventListener("click", openCart);
-if(cartClose) cartClose.addEventListener("click", closeCart);
-if(cartOverlay) cartOverlay.addEventListener("click", closeCart);
-if(cartClearBtn) cartClearBtn.addEventListener("click", clearCart);
+cartBtn?.addEventListener("click", openCart);
+cartClose?.addEventListener("click", closeCart);
+cartOverlay?.addEventListener("click", closeCart);
+cartClearBtn?.addEventListener("click", clearCart);
 
 // init
 refreshCartUI();

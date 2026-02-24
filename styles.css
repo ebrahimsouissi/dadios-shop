@@ -81,7 +81,7 @@ body{
   width:250px;
   margin-bottom:15px;
   outline:none;
-  font-family:Arial, sans-serif;
+
 }
 .fbtn{
   padding:8px 16px; margin:5px;
@@ -91,7 +91,7 @@ body{
   color:var(--gold);
   cursor:pointer;
   transition:.3s ease;
-  font-family:Arial, sans-serif;
+ ;
   font-weight:700;
 }
 .fbtn.active,.fbtn:hover{ background:var(--gold); color:#000; }
@@ -131,7 +131,7 @@ body{
   display:flex; align-items:center; justify-content:center;
   background:rgba(0,0,0,.35);
   color:#fff;
-  font-family:Arial, sans-serif;
+ ;
   font-weight:700;
   font-size:.95rem;
   border-radius:14px;
@@ -164,7 +164,7 @@ body{
   background:rgba(199,166,87,.12);
   color:#fff;
   font-weight:800;
-  font-family:Arial, sans-serif;
+ ;
   cursor:pointer;
   transition:.25s ease;
 }
@@ -184,7 +184,7 @@ body{
   color:#000;
   text-decoration:none;
   font-weight:900;
-  font-family:Arial, sans-serif;
+ ;
   transition:.2s ease;
   text-align:center;
 }
@@ -240,9 +240,9 @@ body{
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 #pmTitle{ font-size:2rem; color:var(--gold); letter-spacing:.5px; }
-.pm-muted{ font-size:.95rem; opacity:.8; font-family:Arial, sans-serif; }
+.pm-muted{ font-size:.95rem; opacity:.8;; }
 
-.pm-rate{ display:flex; gap:8px; align-items:baseline; color:var(--gold); font-family:Arial, sans-serif; }
+.pm-rate{ display:flex; gap:8px; align-items:baseline; color:var(--gold);; }
 .pm-rate span{ font-size:1.4rem; font-weight:800; }
 
 .pmodal-grid{ display:grid; grid-template-columns:420px 1fr; gap:40px; }
@@ -275,7 +275,7 @@ body{
   border-radius:20px;
   display:inline-block;
   font-size:.85rem;
-  font-family:Arial, sans-serif;
+ ;
 }
 
 .pm-accord{
@@ -284,7 +284,7 @@ body{
   font-weight:800;
   font-size:.85rem;
   color:#111;
-  font-family:Arial, sans-serif;
+ ;
 }
 
 .pm-kpis{ display:flex; gap:20px; flex-wrap:wrap; }
@@ -296,7 +296,7 @@ body{
   text-align:center;
 }
 .pm-kpi b{ display:block; font-size:1.1rem; color:var(--gold); margin-bottom:4px; }
-.pm-kpi small{ opacity:.85; font-family:Arial, sans-serif; }
+.pm-kpi small{ opacity:.85;; }
 
 .pm-pills{ display:flex; gap:10px; flex-wrap:wrap; }
 .pm-pill{
@@ -304,7 +304,7 @@ body{
   border-radius:25px;
   border:1px solid rgba(199,166,87,.4);
   font-size:.85rem;
-  font-family:Arial, sans-serif;
+ ;
   color:var(--gold);
 }
 .pm-pill.on{ background:var(--gold); color:#000; }
@@ -319,7 +319,7 @@ body{
   color:#000;
   font-weight:900;
   text-decoration:none;
-  font-family:Arial, sans-serif;
+ ;
   transition:.3s ease;
 }
 .pm-order:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(199,166,87,.5); }
@@ -511,7 +511,7 @@ footer{
   background:var(--green-deep);
   font-size:0.9rem;
   color:rgba(255,255,255,.75);
-  font-family:Arial, sans-serif;
+ ;
   border-top:1px solid rgba(255,255,255,.06);
 }
 

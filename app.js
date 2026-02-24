@@ -470,7 +470,7 @@ function render(list){
       const id = btn.getAttribute("data-add");
       const p = PRODUCTS.find(x=>x.id===id);
       if(p) addToCart(p);
-      openCart();
+
     });
   });
 }

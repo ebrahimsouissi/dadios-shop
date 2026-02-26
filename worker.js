@@ -7,7 +7,7 @@
  * - addStamp: Add stamps to existing card
  */
 
-const TARGET_URL = "https://script.google.com/macros/s/AKfycbwRtuAc7O3zL66ZuZGXXf0dpPghJ_h7-b6G3UrRGq2zGgIofFGfB3lyoSQOIxdoSNbnwA/exec";
+const TARGET_URL = "www.dadiosfragrance.com/api/loyalty";
 const ALLOWED_ORIGIN = "https://dadiosfragrance.com";
 
 const cardStore = new Map();

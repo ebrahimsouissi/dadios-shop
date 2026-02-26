@@ -348,6 +348,33 @@
   if(cartOverlay) cartOverlay.addEventListener('click', closeCart);
   if(cartClearBtn) cartClearBtn.addEventListener('click', clearCart);
 
+  // ---- Filter Tabs in Menu Dropdown ----
+  const filterTabs = document.querySelectorAll('.filterTab');
+  const filterPanels = document.querySelectorAll('.filterPanel');
+  
+  filterTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      // Remove active class from all tabs
+      filterTabs.forEach(function(t) { t.classList.remove('active'); });
+      // Add active class to clicked tab
+      tab.classList.add('active');
+      
+      // Get the filter type from data-filter attribute
+      var filterType = tab.getAttribute('data-filter');
+      
+      // Hide all panels
+      filterPanels.forEach(function(panel) { 
+        panel.classList.remove('active'); 
+      });
+      
+      // Show the corresponding panel
+      var targetPanel = document.querySelector('.filterPanel[data-panel="' + filterType + '"]');
+      if(targetPanel) {
+        targetPanel.classList.add('active');
+      }
+    });
+  });
+
   // ---- Init ----
   populateFilters();
   applyFilters();

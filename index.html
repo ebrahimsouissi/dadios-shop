@@ -43,7 +43,13 @@
         <div id="menuDrop" class="menuDrop hidden" role="menu" aria-label="Menu filtres">
           <div class="menuHead">
             <strong>Filtres avancés</strong>
-            <button id="menuCloseBtn" class="menuX" aria-label="Fermer">✕</button>
+<button id="menuCloseBtn" class="menuX" aria-label="Fermer">✕</button>
+          </div>
+
+          <!-- Top action buttons -->
+          <div class="menuTopActions">
+            <button id="menuLoyalty" type="button" class="menuActionBtn">💎 Carte Fidélité</button>
+            <button id="menuFilters" type="button" class="menuActionBtn">🎛️ Filtres avancés</button>
           </div>
 
           <div class="filterTabs">
@@ -197,6 +203,67 @@
       </div>
     </div>
   </aside>
+
+  <!-- LOYALTY CARD MODAL -->
+  <div id="loyModal" class="loy-modal hidden" role="dialog" aria-modal="true" aria-labelledby="loyTitle">
+    <div class="loy-overlay"></div>
+    <div class="loy-card">
+      <button class="loy-close" aria-label="Fermer">&times;</button>
+      
+      <div id="loyOptions" class="loy-section">
+        <div class="loy-header">
+          <span class="loy-icon">💎</span>
+          <h3 id="loyTitle">Carte Fidélité DADIOS</h3>
+          <p>1 parfum = 1 tampon<br>8 tampons = 1 parfum offert !</p>
+        </div>
+        <div class="loy-buttons">
+          <button id="loyBtnCreate" class="loy-btn loy-btn-primary"><span>✨</span> Créer ma carte</button>
+          <button id="loyBtnImport" class="loy-btn loy-btn-secondary"><span>📥</span> Importer une carte</button>
+          <button id="loyBtnSkip" class="loy-btn loy-btn-ghost">Commander sans fidélité</button>
+        </div>
+      </div>
+      
+      <div id="loyCreate" class="loy-section hidden">
+        <h3>Créer ma carte</h3>
+        <div class="loy-form">
+          <div class="loy-field"><label for="loyName">Nom complet</label><input type="text" id="loyName" placeholder="Votre nom"></div>
+          <div class="loy-field"><label for="loyPhone">Téléphone</label><input type="tel" id="loyPhone" placeholder="+216..."></div>
+          <div class="loy-actions">
+            <button id="loyBtnSubmitCreate" class="loy-btn loy-btn-primary">Créer & Commander</button>
+            <button id="loyBtnBackCreate" class="loy-btn loy-btn-ghost">Retour</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="loyImport" class="loy-section hidden">
+        <h3>Importer ma carte</h3>
+        <div class="loy-form">
+          <div class="loy-field"><label for="loyCodeInput">Code carte</label><input type="text" id="loyCodeInput" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;"></div>
+          <div class="loy-field"><label for="loyPhoneImport">Téléphone (optionnel)</label><input type="tel" id="loyPhoneImport" placeholder="+216..."></div>
+          <div class="loy-actions">
+            <button id="loyBtnSubmitImport" class="loy-btn loy-btn-primary">Importer & Commander</button>
+            <button id="loyBtnBackImport" class="loy-btn loy-btn-ghost">Retour</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="loySuccess" class="loy-section hidden">
+        <div class="loy-card-display">
+          <div class="loy-card-code" id="loyCardCode">----</div>
+          <div class="loy-card-name" id="loyCardName">----</div>
+          <div class="loy-card-stamps"><div class="loy-stamps" id="loyStampsDisplay"><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span></div><div class="loy-stamps-text"><span id="loyStampsCount">0</span> / 8</div></div>
+          <div class="loy-rewards">🎁 <span id="loyRewardsCount">0</span> parfums offerts</div>
+        </div>
+        <p class="loy-message" id="loyMessage"></p>
+        <button id="loyBtnContinue" class="loy-btn loy-btn-primary">Continuer vers WhatsApp</button>
+      </div>
+      
+      <div id="loyLoading" class="loy-section hidden">
+        <div class="loy-spinner"></div>
+        <p>Chargement...</p>
+      </div>
+    </div>
+  </div>
 
   <footer>© 2026 DADIOS Fragrance — Tunisia</footer>
 

@@ -3,25 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <meta property="og:title" content="Dadios Fragrance">
-<meta property="og:description" content="Essence of Timeless Elegance. Discover our luxury perfumes.">
-<meta property="og:image" content="https://dadiosfragrance.com/images/dadios-fragrance.jpg">
-<meta property="og:url" content="https://dadiosfragrance.com/">
-<meta property="og:type" content="website">
-<meta property="fb:app_id" content="1034414029751606" />
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-  
+  <meta property="og:description" content="Essence of Timeless Elegance. Discover our luxury perfumes.">
+  <meta property="og:image" content="https://dadiosfragrance.com/images/dadios-fragrance.jpg">
+  <meta property="og:url" content="https://dadiosfragrance.com/">
+  <meta property="og:type" content="website">
+  <meta property="fb:app_id" content="1034414029751606" />
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
   <title>DADIOS Fragrance</title>
 
   <!-- favicon -->
-  <link rel="icon" type="image/png" href="favicon.png.png" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
 
   <!-- font -->
-  <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
@@ -31,20 +32,76 @@
   <!-- NAV -->
   <header class="navbar">
     <div class="logo">DADIOS</div>
-    <button id="cartBtn" class="cartBtn" type="button" aria-label="Panier">
-    🛒 <span id="cartCount">0</span>
-  </button>
 
+    <!-- MENU + CART -->
+    <div class="nav-actions">
+      <div class="menuWrap">
+        <button id="menuBtn" class="menuBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          ☰ Menu
+        </button>
+
+        <div id="menuDrop" class="menuDrop hidden" role="menu" aria-label="Menu filtres">
+          <div class="menuHead">
+            <strong>Filtres avancés</strong>
+            <button id="menuCloseBtn" class="menuX" aria-label="Fermer">✕</button>
+          </div>
+
+          <div class="filterTabs">
+            <button class="filterTab active" data-filter="brand">Marque</button>
+            <button class="filterTab" data-filter="season">Saison</button>
+            <button class="filterTab" data-filter="time">Temps</button>
+            <button class="filterTab" data-filter="note">Notes</button>
+          </div>
+
+          <div class="filterPanels">
+            <div class="filterPanel active" data-panel="brand">
+              <div class="menuSection">
+                <div class="menuSectionTitle">Marque</div>
+                <div id="brandFilters" class="menuOptions"></div>
+              </div>
+            </div>
+            <div class="filterPanel" data-panel="season">
+              <div class="menuSection">
+                <div class="menuSectionTitle">Saison</div>
+                <div id="seasonFilters" class="menuOptions"></div>
+              </div>
+            </div>
+            <div class="filterPanel" data-panel="time">
+              <div class="menuSection">
+                <div class="menuSectionTitle">Temps</div>
+                <div id="timeFilters" class="menuOptions"></div>
+              </div>
+            </div>
+            <div class="filterPanel" data-panel="note">
+              <div class="menuSection">
+                <div class="menuSectionTitle">Notes</div>
+                <input type="text" id="noteSearch" class="noteSearch" placeholder="Rechercher une note...">
+                <div id="noteFilters" class="menuOptions"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="menuActions">
+            <button id="applyFiltersBtn" class="menuApply" type="button">Appliquer</button>
+            <button id="clearFilters" class="menuClear" type="button">Réinitialiser</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="cartBtn" class="cartBtn" type="button" aria-label="Panier">
+        🛒 <span id="cartCount">0</span>
+      </button>
+    </div>
   </header>
 
   <!-- HERO -->
-<section class="hero">
-  <div class="hero-overlay">
-    <h1>Essence of Timeless Elegance</h1>
-    <p>Signature. Élégance. Équilibre</p>
-    <a class="btn-nav" href="#" id="bestBtn">Meilleures Ventes</a>
-  </div>
-</section>
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>Essence of Timeless Elegance</h1>
+      <p>Signature. Élégance. Équilibre</p>
+      <a class="btn-nav" href="#" id="bestBtn">Meilleures Ventes</a>
+    </div>
+  </section>
 
   <!-- FILTERS -->
   <section class="filters">
@@ -101,13 +158,11 @@
 
           <div class="pm-box">
             <h3>Journée</h3>
-            <!-- SMART: app.js يبدّلها ل pill وحدة -->
             <div id="pmTime" class="pm-pills"></div>
           </div>
 
           <div class="pm-box">
             <h3>Saison recommandée</h3>
-            <!-- SMART: app.js يبدّلها ل pill وحدة -->
             <div id="pmSeasons" class="pm-pills"></div>
           </div>
 
@@ -118,29 +173,31 @@
       </div>
     </div>
   </div>
-<!-- CART OVERLAY + DRAWER -->
-<div id="cartOverlay" class="overlay hidden"></div>
 
-<aside id="cartDrawer" class="drawer hidden" aria-hidden="true">
-  <div class="drawerHead">
-    <h3>Panier</h3>
-    <button id="cartClose" class="xbtn" type="button" aria-label="Close">✕</button>
-  </div>
+  <!-- CART OVERLAY + DRAWER -->
+  <div id="cartOverlay" class="overlay hidden"></div>
 
-  <div id="cartItems" class="cartItems"></div>
-
-  <div class="drawerFoot">
-    <div class="totalRow">
-      <span>Total</span>
-      <strong id="cartTotal">0 DT</strong>
+  <aside id="cartDrawer" class="drawer hidden" aria-hidden="true">
+    <div class="drawerHead">
+      <h3>Panier</h3>
+      <button id="cartClose" class="xbtn" type="button" aria-label="Close">✕</button>
     </div>
 
-    <div class="cartActions">
-      <button id="cartClear" class="btn ghost" type="button">Vider</button>
-      <a id="cartCheckout" class="btn primary" target="_blank" rel="noopener">Commander WhatsApp</a>
+    <div id="cartItems" class="cartItems"></div>
+
+    <div class="drawerFoot">
+      <div class="totalRow">
+        <span>Total</span>
+        <strong id="cartTotal">0 DT</strong>
+      </div>
+
+      <div class="cartActions">
+        <button id="cartClear" class="btn ghost" type="button">Vider</button>
+        <a id="cartCheckout" class="btn primary" target="_blank" rel="noopener">Commander WhatsApp</a>
+      </div>
     </div>
-  </div>
-</aside>
+  </aside>
+
   <footer>© 2026 DADIOS Fragrance — Tunisia</footer>
 
   <script src="app.js"></script>

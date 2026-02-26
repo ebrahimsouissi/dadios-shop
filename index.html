@@ -49,6 +49,7 @@
           <!-- Top action buttons -->
           <div class="menuTopActions">
             <button id="menuLoyalty" type="button" class="menuActionBtn">💎 Carte Fidélité</button>
+            <button id="menuOwner" type="button" class="menuActionBtn">🔐 Espace propriétaire</button>
             <button id="menuFilters" type="button" class="menuActionBtn">🎛️ Filtres avancés</button>
           </div>
 
@@ -265,8 +266,65 @@
     </div>
   </div>
 
+  <!-- OWNER PASSWORD MODAL -->
+  <div id="ownerModal" class="loy-modal hidden" role="dialog" aria-modal="true">
+    <div class="loy-overlay"></div>
+    <div class="loy-card">
+      <button class="loy-close" id="ownerCloseBtn" aria-label="Fermer">&times;</button>
+      <div class="loy-header">
+        <span class="loy-icon">🔐</span>
+        <h3>Espace propriétaire</h3>
+        <p>Entrez votre mot de passe pour accéder</p>
+      </div>
+      <div class="loy-form">
+        <div class="loy-field">
+          <label for="ownerPassword">Mot de passe</label>
+          <input type="password" id="ownerPassword" placeholder="Mot de passe">
+        </div>
+        <p id="ownerError" class="hidden" style="color: #ff6b6b; text-align: center; margin-bottom: 10px;"></p>
+        <div class="loy-actions">
+          <button id="ownerSubmitBtn" class="loy-btn loy-btn-primary">Accéder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OWNER ADMIN SECTION -->
+  <div id="ownerAdmin" class="owner-admin hidden">
+    <div class="owner-admin-header">
+      <h2>Gestion des cartes</h2>
+      <button id="ownerAdminClose" class="loy-btn loy-btn-ghost">Fermer</button>
+    </div>
+    <div class="owner-admin-content">
+      <div id="ownerAdminTable" class="owner-table-wrap">
+        <table class="owner-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Nom</th>
+              <th>Téléphone</th>
+              <th>Tampons</th>
+              <th>Récompenses</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ownerCardsBody">
+            <!-- Cards will be loaded here -->
+          </tbody>
+        </table>
+        <p id="ownerNoCards" class="hidden" style="text-align: center; padding: 20px; opacity: 0.7;">Aucune carte trouvée</p>
+      </div>
+      <div id="ownerLoading" class="owner-loading hidden">
+        <div class="loy-spinner"></div>
+        <p>Chargement des cartes...</p>
+      </div>
+    </div>
+  </div>
+
   <footer>© 2026 DADIOS Fragrance — Tunisia</footer>
 
   <script src="app.js"></script>
+  <script src="owner.js"></script>
 </body>
 </html>

@@ -1,0 +1,41 @@
+# This is the patch for app.js - menuLoyalty click handler
+
+Replace this section in app.js:
+
+<<<<<<< SEARCH
+    menuLoyalty.addEventListener('click', function(){
+      closeMenu();
+      if(typeof openLM === 'function'){
+        openLM();
+      } else {
+        const loyModal = document.getElementById('loyModal');
+        if(loyModal) loyModal.classList.remove('hidden');
+      }
+    });
+  }
+=======
+    menuLoyalty.addEventListener('click', function(){
+      closeMenu();
+      var cart = loadCart();
+      if(cart && cart.length > 0){
+        if(typeof initCO === 'function'){
+          initCO();
+        } else {
+          loyPC = cart;
+          if(typeof openLM === 'function'){
+            openLM();
+          } else {
+            var loyModal = document.getElementById('loyModal');
+            if(loyModal) loyModal.classList.remove('hidden');
+          }
+        }
+      } else {
+        if(typeof openLM === 'function'){
+          openLM();
+        } else {
+          var loyModal = document.getElementById('loyModal');
+          if(loyModal) loyModal.classList.remove('hidden');
+        }
+      }
+    });
+  }

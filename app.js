@@ -413,11 +413,14 @@
   var loyMsg = document.getElementById('loyMessage');
   var loyPC = null;
   
-  function apiP(a,d){
-    var fd = new FormData();
-    fd.append('action', a);
-    Object.keys(d).forEach(function(k){ fd.append(k, d[k]); });
-    return fetch(LOYALTY_API, {method:'POST', body:fd}).then(function(r){ return r.json(); }).catch(function(){ return {ok:false, error:'Erreur'}; });
+  function apiP(a, d) {
+    return fetch(LOYALTY_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ action: a }, d))
+    })
+    .then(function(r) { return r.json(); })
+    .catch(function() { return { ok: false, error: 'Erreur de connexion' }; });
   }
   function saveC(c){ localStorage.setItem(LOYALTY_KEY, JSON.stringify(c)); }
   function loadC(){ var d = localStorage.getItem(LOYALTY_KEY); return d ? JSON.parse(d) : null; }

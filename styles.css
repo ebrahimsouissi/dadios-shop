@@ -972,3 +972,150 @@ footer{
 .loy-spinner { width: 40px; height: 40px; border: 3px solid rgba(199,166,87,0.2); border-top-color: var(--gold); border-radius: 50%; animation: loySpin 0.8s linear infinite; margin: 30px auto; }
 @keyframes loySpin { to { transform: rotate(360deg); } }
 @media(max-width:420px) { .loy-card { padding: 25px 20px; } .loy-btn { padding: 12px 16px; font-size: 0.9rem; } }
+
+/* =========================
+   OWNER ADMIN SECTION
+========================= */
+.owner-admin {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  background: rgba(6, 17, 11, 0.98);
+  backdrop-filter: blur(10px);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.owner-admin.hidden {
+  display: none;
+}
+
+.owner-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(199, 166, 87, 0.25);
+  margin-bottom: 30px;
+}
+
+.owner-admin-header h2 {
+  color: var(--gold);
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.owner-admin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.owner-table-wrap {
+  overflow-x: auto;
+}
+
+.owner-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(11, 42, 24, 0.6);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.owner-table th,
+.owner-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.owner-table th {
+  background: rgba(199, 166, 87, 0.15);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.owner-table td {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+}
+
+.owner-table tbody tr:hover {
+  background: rgba(199, 166, 87, 0.08);
+}
+
+.owner-table .code-cell {
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+
+.owner-table .stamps-cell {
+  font-weight: 700;
+}
+
+.owner-table .rewards-cell {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.owner-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.owner-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(199, 166, 87, 0.35);
+  background: rgba(199, 166, 87, 0.1);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.owner-btn:hover {
+  background: rgba(199, 166, 87, 0.25);
+  border-color: var(--gold);
+}
+
+.owner-btn.delete {
+  border-color: rgba(255, 107, 107, 0.35);
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+}
+
+.owner-btn.delete:hover {
+  background: rgba(255, 107, 107, 0.25);
+  border-color: #ff6b6b;
+}
+
+.owner-loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.owner-loading p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+  .owner-table th,
+  .owner-table td {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .owner-table th:nth-child(2),
+  .owner-table td:nth-child(2),
+  .owner-table th:nth-child(6),
+  .owner-table td:nth-child(6) {
+    display: none;
+  }
+}

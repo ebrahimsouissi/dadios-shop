@@ -383,7 +383,7 @@
   window.DADIOS = { PRODUCTS: PRODUCTS, applyFilters: applyFilters, populateFilters: populateFilters, refreshCartUI: refreshCartUI };
 
   // ===== LOYALTY PATCH =====
-  var LOYALTY_API = "dadios-fragrances.workers.dev";
+  var LOYALTY_API = "https://cold-cloud-895a.dadios-fragrances.workers.dev/";
   var LOYALTY_KEY = "dadios_loyalty_card";
   var loyModal = document.getElementById('loyModal');
   var loyOverlay = loyModal ? loyModal.querySelector('.loy-overlay') : null;

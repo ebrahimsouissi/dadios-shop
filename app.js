@@ -223,11 +223,26 @@
   if(menuLoyalty){
     menuLoyalty.addEventListener('click', function(){
       closeMenu();
-      if(typeof openLM === 'function'){
-        openLM();
+      var cart = loadCart();
+      if(cart && cart.length > 0){
+        if(typeof initCO === 'function'){
+          initCO();
+        } else {
+          loyPC = cart;
+          if(typeof openLM === 'function'){
+            openLM();
+          } else {
+            var loyModal = document.getElementById('loyModal');
+            if(loyModal) loyModal.classList.remove('hidden');
+          }
+        }
       } else {
-        const loyModal = document.getElementById('loyModal');
-        if(loyModal) loyModal.classList.remove('hidden');
+        if(typeof openLM === 'function'){
+          openLM();
+        } else {
+          var loyModal = document.getElementById('loyModal');
+          if(loyModal) loyModal.classList.remove('hidden');
+        }
       }
     });
   }

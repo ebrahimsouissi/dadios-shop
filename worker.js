@@ -41,10 +41,12 @@ function getCard(code) {
 
 function addStamps(code, qty) {
   const card = cardStore.get(code.toUpperCase());
+  console.log('[DADIOS Worker] addStamps - code:', code, 'qty:', qty, 'current stamps:', card ? card.stamps : 'N/A');
   if (!card) return null;
   card.stamps += qty;
   card.rewards = Math.floor(card.stamps / 8);
   card.stamps = card.stamps % 8;
+  console.log('[DADIOS Worker] addStamps result - new stamps:', card.stamps, 'rewards:', card.rewards);
   return card;
 }
 

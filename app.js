@@ -9,7 +9,7 @@
 
   // ---- DOM helpers ----
   const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, Aroot = document) => Array.from(root.querySelectorAll(sel));
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
   // ---- Data ----
   const PRODUCTS = [

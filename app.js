@@ -9,7 +9,7 @@
 
   // ---- DOM helpers ----
   const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const $$ = (sel, Aroot = document) => Array.from(root.querySelectorAll(sel));
 
   // ---- Data ----
   const PRODUCTS = [
@@ -450,6 +450,7 @@
   
   function procWL(c){
     var q = getPQ();
+    console.log('[DADIOS] addStamp request - code:', c.code, 'qty:', q);
     if(q > 0){
       showLS('loading');
       apiP('addStamp', {code:c.code, qty:q}).then(function(r){

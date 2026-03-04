@@ -259,6 +259,35 @@
     });
   }
   
+  // Loyalty button in navbar - opens loyalty modal directly
+  const loyaltyBtn = document.getElementById('loyaltyBtn');
+  if(loyaltyBtn){
+    loyaltyBtn.addEventListener('click', function(){
+      closeMenu(); // Close menu if open
+      var cart = loadCart();
+      if(cart && cart.length > 0){
+        if(typeof initCO === 'function'){
+          initCO();
+        } else {
+          loyPC = cart;
+          if(typeof openLM === 'function'){
+            openLM();
+          } else {
+            var loyModal = document.getElementById('loyModal');
+            if(loyModal) loyModal.classList.remove('hidden');
+          }
+        }
+      } else {
+        if(typeof openLM === 'function'){
+          openLM();
+        } else {
+          var loyModal = document.getElementById('loyModal');
+          if(loyModal) loyModal.classList.remove('hidden');
+        }
+      }
+    });
+  }
+  
   document.addEventListener('click',function(e){ if(!menuDrop) return; if(!menuDrop.contains(e.target) && e.target !== menuBtn) closeMenu(); });
   document.addEventListener('keydown',function(e){ if(e.key === 'Escape') closeMenu(); });
 

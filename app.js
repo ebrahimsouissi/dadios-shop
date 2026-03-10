@@ -851,9 +851,10 @@
 window.addEventListener("load", () => {
   resetSteps();
 
-  setTimeout(() => {
-    openPopup();
-  }, 1200); 
+  if (!localStorage.getItem("dadiosQuizSeen")) {
+    setTimeout(() => {
+      openPopup();
+    }, 1200);
     }
   });
 })();

@@ -958,7 +958,7 @@ footer{
   .btn-nav{ display:none; }
   .menuBtn{ padding:8px 10px; font-size:0.75rem; border-radius:8px; }
   .cartBtn{ padding:8px 10px; font-size:0.75rem; }
-  .menuDrop{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:calc(100vw - 32px); max-width:420px; right:auto; margin:0 auto; box-sizing:border-box; max-height:85vh; border-radius:14px; }
+  .menuDrop{ position:fixed; left:-130px; top:50%; transform:translate(-50%,-50%); width:calc(100vw - 32px); max-width:420px; right:auto; margin:0 auto; box-sizing:border-box; max-height:85vh; border-radius:14px; }
   .menuDrop:not(.hidden){ transform:translate(-50%,-50%); }
   .menuHead strong{ font-size:0.75rem; }
   .filterTabs{ padding:10px 12px; }

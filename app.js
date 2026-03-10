@@ -541,6 +541,16 @@
 
 })();
 /* ===== QUIZ POPUP DADIOS ===== */
+const openQuizBtn = document.getElementById("openQuizBtn");
+
+if(openQuizBtn){
+  openQuizBtn.addEventListener("click", () => {
+
+    resetSteps();
+    openPopup();
+
+  });
+}
 (function () {
   const WHATSAPP_NUMBER = "21656731891"; // remplace par ton vrai numéro
 

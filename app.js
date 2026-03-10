@@ -118,8 +118,7 @@
       return;
     }
     var html = list.map(function(p){
-      var msg = 'Je veux commander '+p.name;
-      return '<div class="card"><img src="'+p.thumbImg+'" alt="'+p.name+'" data-id="'+p.id+'" class="thumb"><div class="img-overlay">Cliquez pour voir les détails</div><span class="name">'+p.name+'</span><div class="card-actions"><button class="addBtn" type="button" data-add="'+p.id+'">Ajouter</button><a href="'+waLink(msg)+'" target="_blank" rel="noopener">Commander</a></div></div>';
+      return '<div class="card"><img src="'+p.thumbImg+'" alt="'+p.name+'" data-id="'+p.id+'" class="thumb"><div class="img-overlay">Cliquez pour voir les détails</div><span class="name">'+p.name+'</span><div class="card-actions"><button class="addBtn" type="button" data-add="'+p.id+'">Ajouter</button></div></div>';
     }).join('');
     container.innerHTML = html;
     $$('#productContainer .thumb').forEach(function(img){

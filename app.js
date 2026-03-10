@@ -540,3 +540,321 @@
   }
 
 })();
+/* ===== QUIZ POPUP DADIOS ===== */
+(function () {
+  const WHATSAPP_NUMBER = "21656731891"; // remplace par ton vrai numéro
+
+  const QUIZ_PRODUCTS = [
+    {
+      id: "my-way",
+      nom: "My Way",
+      genre: "femme",
+      saisons: ["printemps", "été"],
+      temps: ["jour", "quotidien"],
+      notes: ["floral", "fruité", "doux"],
+      profil: "Féminin, élégant, lumineux",
+      moment: "Parfait en journée et au quotidien.",
+      description: "Un parfum féminin élégant, doux et lumineux.",
+    },
+    {
+      id: "alien",
+      nom: "Alien",
+      genre: "femme",
+      saisons: ["automne", "hiver"],
+      temps: ["soir", "événement"],
+      notes: ["floral", "ambre", "intense"],
+      profil: "Mystérieux, affirmé, magnétique",
+      moment: "Idéal en soirée et pendant les saisons fraîches.",
+      description: "Une fragrance puissante et envoûtante pour une présence forte.",
+    },
+    {
+      id: "chloe",
+      nom: "Chloé",
+      genre: "femme",
+      saisons: ["printemps", "été"],
+      temps: ["jour", "quotidien"],
+      notes: ["floral", "frais", "doux"],
+      profil: "Délicat, chic, naturel",
+      moment: "Très agréable en journée.",
+      description: "Un parfum tendre et raffiné, idéal pour un sillage propre.",
+    },
+    {
+      id: "armani-code",
+      nom: "Armani Code",
+      genre: "homme",
+      saisons: ["automne", "hiver"],
+      temps: ["soir", "événement"],
+      notes: ["boisé", "oriental", "sensuel"],
+      profil: "Élégant, séduisant, sûr de lui",
+      moment: "Excellent pour le soir et les sorties.",
+      description: "Une signature élégante et sensuelle.",
+    },
+    {
+      id: "wanted",
+      nom: "Azzaro Wanted",
+      genre: "homme",
+      saisons: ["automne", "hiver"],
+      temps: ["soir", "événement"],
+      notes: ["épicé", "boisé", "intense"],
+      profil: "Énergique, charismatique, audacieux",
+      moment: "Très adapté pour les soirées.",
+      description: "Un parfum masculin puissant, dynamique et accrocheur.",
+    },
+    {
+      id: "king",
+      nom: "Dolce & Gabbana King",
+      genre: "homme",
+      saisons: ["printemps", "été"],
+      temps: ["jour", "quotidien"],
+      notes: ["frais", "boisé", "aromatique"],
+      profil: "Moderne, propre, confiant",
+      moment: "Très bon en journée et au travail.",
+      description: "Une fragrance fraîche et moderne pour un style propre.",
+    },
+    {
+      id: "vert-malachite",
+      nom: "Vert Malachite",
+      genre: "mixte",
+      saisons: ["automne", "hiver"],
+      temps: ["soir", "événement"],
+      notes: ["floral", "oriental", "luxueux"],
+      profil: "Luxe, caractère, singularité",
+      moment: "Parfait pour les occasions spéciales.",
+      description: "Un parfum mixte au caractère luxueux et remarquable.",
+    },
+    {
+      id: "marshmallow",
+      nom: "Marshmallow",
+      genre: "mixte",
+      saisons: ["automne", "hiver"],
+      temps: ["soir"],
+      notes: ["gourmand", "vanillé", "doux"],
+      profil: "Réconfortant, gourmand, attachant",
+      moment: "Idéal pour les amateurs de senteurs sucrées.",
+      description: "Une senteur gourmande et chaleureuse.",
+    }
+  ];
+
+  const QUIZ_QUESTIONS = [
+    {
+      titre: "Pour qui cherchez-vous un parfum ?",
+      aide: "Choisissez le profil principal.",
+      key: "genre",
+      reponses: [
+        { label: "Pour femme", value: "femme" },
+        { label: "Pour homme", value: "homme" },
+        { label: "Mixte / Unisexe", value: "mixte" },
+        { label: "Je veux voir large", value: "all" }
+      ]
+    },
+    {
+      titre: "À quel moment sera-t-il le plus porté ?",
+      aide: "Le moment compte beaucoup dans la recommandation.",
+      key: "temps",
+      reponses: [
+        { label: "En journée", value: "jour" },
+        { label: "En soirée", value: "soir" },
+        { label: "Au quotidien", value: "quotidien" },
+        { label: "Pour un événement", value: "événement" }
+      ]
+    },
+    {
+      titre: "Quelle saison vous correspond le plus ?",
+      aide: "Choisissez l’ambiance générale.",
+      key: "saison",
+      reponses: [
+        { label: "Printemps", value: "printemps" },
+        { label: "Été", value: "été" },
+        { label: "Automne", value: "automne" },
+        { label: "Hiver", value: "hiver" }
+      ]
+    },
+    {
+      titre: "Quelle famille de notes aimez-vous le plus ?",
+      aide: "Votre préférence principale.",
+      key: "note",
+      reponses: [
+        { label: "Floral", value: "floral" },
+        { label: "Boisé", value: "boisé" },
+        { label: "Vanillé / Gourmand", value: "vanillé" },
+        { label: "Frais", value: "frais" }
+      ]
+    }
+  ];
+
+  const state = {
+    step: 0,
+    answers: {}
+  };
+
+  const popup = document.getElementById("quizPopup");
+  const closeBtn = document.getElementById("quizPopupClose");
+  const startBtn = document.getElementById("quizStartBtn");
+  const skipBtn = document.getElementById("quizSkipBtn");
+  const restartBtn = document.getElementById("quizRestartBtn");
+
+  const welcomeStep = document.getElementById("quizWelcome");
+  const gameStep = document.getElementById("quizGame");
+  const resultStep = document.getElementById("quizResult");
+
+  const questionTitle = document.getElementById("quizQuestionTitle");
+  const questionHelper = document.getElementById("quizQuestionHelper");
+  const answersWrap = document.getElementById("quizAnswers");
+  const progressText = document.getElementById("quizProgressText");
+  const progressFill = document.getElementById("quizProgressFill");
+
+  const resultName = document.getElementById("quizResultName");
+  const resultDescription = document.getElementById("quizResultDescription");
+  const resultProfile = document.getElementById("quizResultProfile");
+  const resultMoment = document.getElementById("quizResultMoment");
+  const resultNotes = document.getElementById("quizResultNotes");
+  const whatsappBtn = document.getElementById("quizWhatsappBtn");
+
+  if (!popup) return;
+
+  function openPopup() {
+    popup.classList.remove("hidden");
+    popup.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closePopup(saveSeen = true) {
+    popup.classList.add("hidden");
+    popup.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (saveSeen) {
+      localStorage.setItem("dadiosQuizSeen", "true");
+    }
+  }
+
+  function resetSteps() {
+    welcomeStep.classList.remove("hidden");
+    gameStep.classList.add("hidden");
+    resultStep.classList.add("hidden");
+    state.step = 0;
+    state.answers = {};
+    progressFill.style.width = "0%";
+  }
+
+  function startQuiz() {
+    welcomeStep.classList.add("hidden");
+    resultStep.classList.add("hidden");
+    gameStep.classList.remove("hidden");
+    state.step = 0;
+    state.answers = {};
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = QUIZ_QUESTIONS[state.step];
+    const total = QUIZ_QUESTIONS.length;
+    const current = state.step + 1;
+    const percent = ((current - 1) / total) * 100;
+
+    progressText.textContent = `Question ${current} / ${total}`;
+    progressFill.style.width = `${percent}%`;
+
+    questionTitle.textContent = q.titre;
+    questionHelper.textContent = q.aide;
+    answersWrap.innerHTML = "";
+
+    q.reponses.forEach((rep) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quiz-answer-btn";
+      btn.textContent = rep.label;
+      btn.addEventListener("click", () => {
+        state.answers[q.key] = rep.value;
+
+        if (state.step < QUIZ_QUESTIONS.length - 1) {
+          state.step += 1;
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      });
+      answersWrap.appendChild(btn);
+    });
+  }
+
+  function computeBestProduct() {
+    const { genre, temps, saison, note } = state.answers;
+
+    const ranked = QUIZ_PRODUCTS.map((item) => {
+      let score = 0;
+
+      if (genre === "all") {
+        score += 1;
+      } else if (item.genre === genre) {
+        score += 4;
+      }
+
+      if (item.temps.includes(temps)) score += 3;
+      if (item.saisons.includes(saison)) score += 3;
+
+      if (note === "vanillé") {
+        if (item.notes.includes("vanillé") || item.notes.includes("gourmand")) score += 4;
+      } else {
+        if (item.notes.includes(note)) score += 4;
+      }
+
+      return { ...item, score };
+    });
+
+    ranked.sort((a, b) => b.score - a.score);
+    return ranked[0];
+  }
+
+  function showResult() {
+    const best = computeBestProduct();
+    if (!best) return;
+
+    gameStep.classList.add("hidden");
+    resultStep.classList.remove("hidden");
+    progressFill.style.width = "100%";
+
+    resultName.textContent = best.nom;
+    resultDescription.textContent = best.description;
+    resultProfile.textContent = best.profil;
+    resultMoment.textContent = best.moment;
+
+    resultNotes.innerHTML = "";
+    best.notes.forEach((n) => {
+      const tag = document.createElement("span");
+      tag.textContent = n.charAt(0).toUpperCase() + n.slice(1);
+      resultNotes.appendChild(tag);
+    });
+
+    const msg =
+      `Bonjour DADIOS,%0A` +
+      `J'ai fait le quiz parfum sur votre site.%0A` +
+      `Mon résultat est : ${best.nom}.%0A` +
+      `Je souhaite commander ou avoir plus d’informations.%0A` +
+      `Merci.`;
+
+    whatsappBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+
+    localStorage.setItem("dadiosQuizSeen", "true");
+  }
+
+  closeBtn.addEventListener("click", () => closePopup(true));
+  skipBtn.addEventListener("click", () => closePopup(true));
+  startBtn.addEventListener("click", startQuiz);
+  restartBtn.addEventListener("click", startQuiz);
+
+  popup.addEventListener("click", (e) => {
+    if (e.target.classList.contains("quiz-popup-overlay")) {
+      closePopup(true);
+    }
+  });
+
+  window.addEventListener("load", () => {
+    resetSteps();
+
+    if (!localStorage.getItem("dadiosQuizSeen")) {
+      setTimeout(() => {
+        openPopup();
+      }, 1200);
+    }
+  });
+})();

@@ -848,13 +848,12 @@
     }
   });
 
-  window.addEventListener("load", () => {
-    resetSteps();
+window.addEventListener("load", () => {
+  resetSteps();
 
-    if (!localStorage.getItem("dadiosQuizSeen")) {
-      setTimeout(() => {
-        openPopup();
-      }, 1200);
+  setTimeout(() => {
+    openPopup();
+  }, 1200); 
     }
   });
 })();

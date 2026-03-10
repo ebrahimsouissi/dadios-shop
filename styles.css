@@ -843,6 +843,9 @@ footer{
   .menuApply, .menuClear{ padding:10px 14px; font-size:0.7rem; border-radius:10px; }
   .filterPanels{ max-height:calc(70vh - 200px); }
   .filterPanel{ padding:12px; }
+  .menuDrop{ position:fixed !important; top:50% !important; left:50% !important; right:auto !important; width:calc(100vw - 24px) !important; max-width:420px !important; max-height:85vh !important; margin:0 !important; box-sizing:border-box !important; transform:translate(-50%,-50%) !important; transform-origin:center center !important; z-index:9999 !important; border-radius:14px; }
+  .menuDrop.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+  .menuDrop:not(.hidden){ opacity:1; visibility:visible; pointer-events:auto; transform:translate(-50%,-50%) !important; }
 }
 
 /* =========================
@@ -956,9 +959,6 @@ footer{
   .btn-nav{ display:none; }
   .menuBtn{ padding:8px 10px; font-size:0.75rem; border-radius:8px; }
   .cartBtn{ padding:8px 10px; font-size:0.75rem; }
-  .menuDrop{ position:fixed !important; top:50% !important; left:50% !important; right:auto !important; width:calc(100vw - 24px) !important; max-width:420px !important; max-height:85vh !important; margin:0 !important; box-sizing:border-box !important; transform:translate(-50%,-50%) !important; transform-origin:center center !important; z-index:9999 !important; }
-  .menuDrop.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
-  .menuDrop:not(.hidden){ opacity:1; visibility:visible; pointer-events:auto; transform:translate(-50%,-50%) !important; }
   .menuHead strong{ font-size:0.75rem; }
   .filterTabs{ padding:10px 12px; }
   .filterTab{ padding:10px 8px; font-size:0.7rem; min-height:44px; }

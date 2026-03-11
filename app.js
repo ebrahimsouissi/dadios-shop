@@ -686,13 +686,51 @@
     step: 0,
     answers: {}
   };
+  state.lang = "fr";
 
-  const popup = document.getElementById("quizPopup");
-  const closeBtn = document.getElementById("quizPopupClose");
-  const startBtn = document.getElementById("quizStartBtn");
-  const skipBtn = document.getElementById("quizSkipBtn");
-  const restartBtn = document.getElementById("quizRestartBtn");
-  const openQuizBtn = document.getElementById("openQuizBtn");
+const QUIZ_TEXT = {
+  fr: {
+    badge: "DADIOS • Quiz parfum",
+    welcomeTitle: "Trouvez votre parfum idéal",
+    welcomeText: "Répondez à quelques questions et découvrez la fragrance qui vous correspond.",
+    start: "Commencer",
+    skip: "Plus tard",
+    progress: "Question",
+    helper: "Choisissez une réponse.",
+    resultBadge: "Votre résultat",
+    resultTitle: "Parfum recommandé",
+    profile: "Profil",
+    moment: "Moment idéal",
+    notes: "Notes dominantes",
+    order: "Commander sur WhatsApp",
+    replay: "Rejouer"
+  },
+  tn: {
+    badge: "DADIOS • Quiz parfum",
+    welcomeTitle: "Chnouwa l parfum elli yel9ik ?",
+    welcomeText: "Jawb 3la chwaya as2la w اكتشف parfum elli ychbeh lik.",
+    start: "Ibda",
+    skip: "Ba3d",
+    progress: "Sou2el",
+    helper: "Ikhtar ijeba.",
+    resultBadge: "Natijtek",
+    resultTitle: "El parfum elli ynesbek",
+    profile: "Profil",
+    moment: "Wa9tech ynesbek",
+    notes: "Notes principales",
+    order: "Commander taw",
+    replay: "عاود"
+  }
+};
+  
+const popup = document.getElementById("quizPopup");
+const closeBtn = document.getElementById("quizPopupClose");
+const startBtn = document.getElementById("quizStartBtn");
+const skipBtn = document.getElementById("quizSkipBtn");
+const restartBtn = document.getElementById("quizRestartBtn");
+const openQuizBtn = document.getElementById("openQuizBtn");
+const langFrBtn = document.getElementById("langFrBtn");
+const langTnBtn = document.getElementById("langTnBtn");
 
   const welcomeStep = document.getElementById("quizWelcome");
   const gameStep = document.getElementById("quizGame");
@@ -713,6 +751,45 @@
 
   if (!popup) return;
 
+  function applyQuizLanguage() {
+  const t = QUIZ_TEXT[state.lang];
+
+  const welcomeBadge = document.querySelector("#quizWelcome .quiz-badge");
+  const welcomeTitle = document.querySelector("#quizWelcome h2");
+  const welcomeText = document.querySelector("#quizWelcome p");
+
+  const resultBadge = document.querySelector("#quizResult .quiz-badge");
+  const resultTitleDefault = document.querySelector("#quizResultName");
+  const resultProfileLabel = document.querySelector('#quizResult .quiz-result-card:nth-child(1) strong');
+  const resultMomentLabel = document.querySelector('#quizResult .quiz-result-card:nth-child(2) strong');
+  const resultNotesLabel = document.querySelector('.quiz-result-notes strong');
+
+  if (welcomeBadge) welcomeBadge.textContent = t.badge;
+  if (welcomeTitle) welcomeTitle.textContent = t.welcomeTitle;
+  if (welcomeText) welcomeText.textContent = t.welcomeText;
+
+  if (startBtn) startBtn.textContent = t.start;
+  if (skipBtn) skipBtn.textContent = t.skip;
+
+  if (questionHelper && !state.answers[QUIZ_QUESTIONS[state.step]?.key]) {
+    questionHelper.textContent = t.helper;
+  }
+
+  if (resultBadge) resultBadge.textContent = t.resultBadge;
+  if (resultTitleDefault && !resultTitleDefault.dataset.filled) {
+    resultTitleDefault.textContent = t.resultTitle;
+  }
+
+  if (resultProfileLabel) resultProfileLabel.textContent = t.profile;
+  if (resultMomentLabel) resultMomentLabel.textContent = t.moment;
+  if (resultNotesLabel) resultNotesLabel.textContent = t.notes;
+
+  if (whatsappBtn) whatsappBtn.textContent = t.order;
+  if (restartBtn) restartBtn.textContent = t.replay;
+
+  if (langFrBtn) langFrBtn.classList.toggle("active", state.lang === "fr");
+  if (langTnBtn) langTnBtn.classList.toggle("active", state.lang === "tn");
+}
   function openPopup() {
     popup.classList.remove("hidden");
     popup.setAttribute("aria-hidden", "false");
@@ -749,11 +826,11 @@
     const current = state.step + 1;
     const percent = ((current - 1) / total) * 100;
 
-    progressText.textContent = `Question ${current} / ${total}`;
+progressText.textContent = `${QUIZ_TEXT[state.lang].progress} ${current} / ${total}`;
     progressFill.style.width = `${percent}%`;
 
     questionTitle.textContent = q.titre;
-    questionHelper.textContent = q.aide;
+questionHelper.textContent = state.lang === "tn" ? "Ikhtar ijeba li t9arrbek lik." : q.aide;
     answersWrap.innerHTML = "";
 
     q.reponses.forEach((rep) => {
@@ -850,12 +927,27 @@
       closePopup();
     }
   });
+if (langFrBtn) {
+  langFrBtn.addEventListener("click", () => {
+    state.lang = "fr";
+    applyQuizLanguage();
+    if (!gameStep.classList.contains("hidden")) renderQuestion();
+  });
+}
 
-  window.addEventListener("load", () => {
-    resetSteps();
+if (langTnBtn) {
+  langTnBtn.addEventListener("click", () => {
+    state.lang = "tn";
+    applyQuizLanguage();
+    if (!gameStep.classList.contains("hidden")) renderQuestion();
+  });
+}
+ window.addEventListener("load", () => {
+  resetSteps();
+  applyQuizLanguage();
 
-    setTimeout(() => {
-      openPopup();
-    }, 1200);
+  setTimeout(() => {
+    openPopup();
+  }, 1200);
   });
 })();

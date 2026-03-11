@@ -636,51 +636,75 @@
   ];
 
   const QUIZ_QUESTIONS = [
-    {
-      titre: "Pour qui cherchez-vous un parfum ?",
-      aide: "Choisissez le profil principal.",
-      key: "genre",
-      reponses: [
-        { label: "Pour femme", value: "femme" },
-        { label: "Pour homme", value: "homme" },
-        { label: "Mixte / Unisexe", value: "mixte" },
-        { label: "Je veux voir large", value: "all" }
-      ]
+  {
+    titre: {
+      fr: "Pour qui cherchez-vous un parfum ?",
+      tn: "Lchkoun t7eb t5tar l parfum ?"
     },
-    {
-      titre: "À quel moment sera-t-il le plus porté ?",
-      aide: "Le moment compte beaucoup dans la recommandation.",
-      key: "temps",
-      reponses: [
-        { label: "En journée", value: "jour" },
-        { label: "En soirée", value: "soir" },
-        { label: "Au quotidien", value: "quotidien" },
-        { label: "Pour un événement", value: "événement" }
-      ]
+    aide: {
+      fr: "Choisissez le profil principal.",
+      tn: "Ikhtar chkoun bch yesta3melou."
     },
-    {
-      titre: "Quelle saison vous correspond le plus ?",
-      aide: "Choisissez l’ambiance générale.",
-      key: "saison",
-      reponses: [
-        { label: "Printemps", value: "printemps" },
-        { label: "Été", value: "été" },
-        { label: "Automne", value: "automne" },
-        { label: "Hiver", value: "hiver" }
-      ]
+    key: "genre",
+    reponses: [
+      { label: { fr: "Pour femme", tn: "Lil mara" }, value: "femme" },
+      { label: { fr: "Pour homme", tn: "Lil rajel" }, value: "homme" },
+      { label: { fr: "Mixte / Unisexe", tn: "Mixte / Unisexe" }, value: "mixte" },
+      { label: { fr: "Je veux voir large", tn: "N7eb nchouf kol chay" }, value: "all" }
+    ]
+  },
+  {
+    titre: {
+      fr: "À quel moment sera-t-il le plus porté ?",
+      tn: "Wa9tech bch تستعملو akther ?"
     },
-    {
-      titre: "Quelle famille de notes aimez-vous le plus ?",
-      aide: "Votre préférence principale.",
-      key: "note",
-      reponses: [
-        { label: "Floral", value: "floral" },
-        { label: "Boisé", value: "boisé" },
-        { label: "Vanillé / Gourmand", value: "vanillé" },
-        { label: "Frais", value: "frais" }
-      ]
-    }
-  ];
+    aide: {
+      fr: "Le moment compte beaucoup dans la recommandation.",
+      tn: "El wa9t yfar9 barcha fel choix."
+    },
+    key: "temps",
+    reponses: [
+      { label: { fr: "En journée", tn: "Fel nhar" }, value: "jour" },
+      { label: { fr: "En soirée", tn: "Fel lil" }, value: "soir" },
+      { label: { fr: "Au quotidien", tn: "Kol nhar" }, value: "quotidien" },
+      { label: { fr: "Pour un événement", tn: "Fi occasion" }, value: "événement" }
+    ]
+  },
+  {
+    titre: {
+      fr: "Quelle saison vous correspond le plus ?",
+      tn: "Anéhi saison tnaasbek akther ?"
+    },
+    aide: {
+      fr: "Choisissez l’ambiance générale.",
+      tn: "Ikhtar l ambiance elli t7eb 3liha."
+    },
+    key: "saison",
+    reponses: [
+      { label: { fr: "Printemps", tn: "Printemps" }, value: "printemps" },
+      { label: { fr: "Été", tn: "Été" }, value: "été" },
+      { label: { fr: "Automne", tn: "Automne" }, value: "automne" },
+      { label: { fr: "Hiver", tn: "Hiver" }, value: "hiver" }
+    ]
+  },
+  {
+    titre: {
+      fr: "Quelle famille de notes aimez-vous le plus ?",
+      tn: "Anéhi note t7ebha akther ?"
+    },
+    aide: {
+      fr: "Votre préférence principale.",
+      tn: "Ikhtar el note elli temchilhom akther."
+    },
+    key: "note",
+    reponses: [
+      { label: { fr: "Floral", tn: "Floral" }, value: "floral" },
+      { label: { fr: "Boisé", tn: "Boisé" }, value: "boisé" },
+      { label: { fr: "Vanillé / Gourmand", tn: "Vanillé / Gourmand" }, value: "vanillé" },
+      { label: { fr: "Frais", tn: "Frais" }, value: "frais" }
+    ]
+  }
+];
 
   const state = {
     step: 0,
@@ -829,15 +853,15 @@ const langTnBtn = document.getElementById("langTnBtn");
 progressText.textContent = `${QUIZ_TEXT[state.lang].progress} ${current} / ${total}`;
     progressFill.style.width = `${percent}%`;
 
-    questionTitle.textContent = q.titre;
-questionHelper.textContent = state.lang === "tn" ? "Ikhtar ijeba li t9arrbek lik." : q.aide;
+   questionTitle.textContent = q.titre[state.lang];
+questionHelper.textContent = q.aide[state.lang];
     answersWrap.innerHTML = "";
 
     q.reponses.forEach((rep) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "quiz-answer-btn";
-      btn.textContent = rep.label;
+btn.textContent = rep.label[state.lang];
       btn.addEventListener("click", () => {
         state.answers[q.key] = rep.value;
 

@@ -329,73 +329,76 @@
   </div>
 
   <footer>© 2026  THE DADIOS  — Tunisia</footer>
-  <!-- QUIZ POPUP -->
-  <div id="quizPopup" class="quiz-popup hidden" aria-hidden="true">
-    <div class="quiz-popup-overlay"></div>
+<!-- QUIZ POPUP -->
+<div id="quizPopup" class="quiz-popup hidden" aria-hidden="true">
+  <div class="quiz-popup-overlay"></div>
 
-     <div class="quiz-lang-switch">
-    <button type="button" class="quiz-lang-btn active" data-lang="fr" id="langFrBtn">FR</button>
-    <button type="button" class="quiz-lang-btn" data-lang="tn" id="langTnBtn">TN</button>
-  </div>
+  <div class="quiz-popup-box">
 
-  <button id="quizPopupClose" class="quiz-popup-close" aria-label="Fermer">✕</button>
+    <div class="quiz-lang-switch">
+      <button type="button" class="quiz-lang-btn active" data-lang="fr" id="langFrBtn">FR</button>
+      <button type="button" class="quiz-lang-btn" data-lang="tn" id="langTnBtn">TN</button>
+    </div>
 
-      <div id="quizWelcome" class="quiz-step">
-        <div class="quiz-badge">DADIOS • Quiz parfum</div>
-        <h2>Trouvez votre parfum idéal</h2>
-        <p>
-          Répondez à quelques questions et découvrez la fragrance qui vous correspond.
-        </p>
-        <div class="quiz-actions">
-          <button id="quizStartBtn" class="quiz-btn quiz-btn-primary">Commencer</button>
-          <button id="quizSkipBtn" class="quiz-btn quiz-btn-secondary">Plus tard</button>
-        </div>
-      </div>
+    <button id="quizPopupClose" class="quiz-popup-close" aria-label="Fermer">✕</button>
 
-      <div id="quizGame" class="quiz-step hidden">
-        <div class="quiz-progress-top">
-          <span id="quizProgressText">Question 1 / 5</span>
-          <div class="quiz-progress-bar">
-            <div id="quizProgressFill"></div>
-          </div>
-        </div>
-
-        <h3 id="quizQuestionTitle">Question</h3>
-        <p id="quizQuestionHelper">Choisissez une réponse.</p>
-
-        <div id="quizAnswers" class="quiz-answers"></div>
-      </div>
-
-      <div id="quizResult" class="quiz-step hidden">
-        <div class="quiz-badge">Votre résultat</div>
-        <h2 id="quizResultName">Parfum recommandé</h2>
-        <p id="quizResultDescription"></p>
-
-        <div class="quiz-result-grid">
-          <div class="quiz-result-card">
-            <strong>Profil</strong>
-            <p id="quizResultProfile"></p>
-          </div>
-          <div class="quiz-result-card">
-            <strong>Moment idéal</strong>
-            <p id="quizResultMoment"></p>
-          </div>
-        </div>
-
-        <div class="quiz-result-notes">
-          <strong>Notes dominantes</strong>
-          <div id="quizResultNotes" class="quiz-tags"></div>
-        </div>
-
-        <div class="quiz-actions">
-          <a id="quizWhatsappBtn" class="quiz-btn quiz-btn-primary" href="#" target="_blank" rel="noopener">
-            Commander sur WhatsApp
-          </a>
-          <button id="quizRestartBtn" class="quiz-btn quiz-btn-secondary">Rejouer</button>
-        </div>
+    <div id="quizWelcome" class="quiz-step">
+      <div class="quiz-badge">DADIOS • Quiz parfum</div>
+      <h2>Trouvez votre parfum idéal</h2>
+      <p>
+        Répondez à quelques questions et découvrez la fragrance qui vous correspond.
+      </p>
+      <div class="quiz-actions">
+        <button id="quizStartBtn" class="quiz-btn quiz-btn-primary">Commencer</button>
+        <button id="quizSkipBtn" class="quiz-btn quiz-btn-secondary">Plus tard</button>
       </div>
     </div>
+
+    <div id="quizGame" class="quiz-step hidden">
+      <div class="quiz-progress-top">
+        <span id="quizProgressText">Question 1 / 5</span>
+        <div class="quiz-progress-bar">
+          <div id="quizProgressFill"></div>
+        </div>
+      </div>
+
+      <h3 id="quizQuestionTitle">Question</h3>
+      <p id="quizQuestionHelper">Choisissez une réponse.</p>
+
+      <div id="quizAnswers" class="quiz-answers"></div>
+    </div>
+
+    <div id="quizResult" class="quiz-step hidden">
+      <div class="quiz-badge">Votre résultat</div>
+      <h2 id="quizResultName">Parfum recommandé</h2>
+      <p id="quizResultDescription"></p>
+
+      <div class="quiz-result-grid">
+        <div class="quiz-result-card">
+          <strong>Profil</strong>
+          <p id="quizResultProfile"></p>
+        </div>
+        <div class="quiz-result-card">
+          <strong>Moment idéal</strong>
+          <p id="quizResultMoment"></p>
+        </div>
+      </div>
+
+      <div class="quiz-result-notes">
+        <strong>Notes dominantes</strong>
+        <div id="quizResultNotes" class="quiz-tags"></div>
+      </div>
+
+      <div class="quiz-actions">
+        <a id="quizWhatsappBtn" class="quiz-btn quiz-btn-primary" href="#" target="_blank" rel="noopener">
+          Commander sur WhatsApp
+        </a>
+        <button id="quizRestartBtn" class="quiz-btn quiz-btn-secondary">Rejouer</button>
+      </div>
+    </div>
+
   </div>
+</div>
   <script src="app.js"></script>
   <script src="owner.js"></script>
 </body>

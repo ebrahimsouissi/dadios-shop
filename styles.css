@@ -1383,3 +1383,13 @@ footer{
     grid-template-columns: 1fr;
   }
 }
+.hero-buttons{
+  display:flex;
+  gap:15px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.quiz-btn-hero{
+  cursor:pointer;
+}

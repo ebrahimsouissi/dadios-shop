@@ -541,18 +541,8 @@
 
 })();
 /* ===== QUIZ POPUP DADIOS ===== */
-const openQuizBtn = document.getElementById("openQuizBtn");
-
-if(openQuizBtn){
-  openQuizBtn.addEventListener("click", () => {
-
-    resetSteps();
-    openPopup();
-
-  });
-}
 (function () {
-  const WHATSAPP_NUMBER = "21656731891"; // remplace par ton vrai numéro
+  const WHATSAPP_NUMBER = "21656731891";
 
   const QUIZ_PRODUCTS = [
     {
@@ -702,6 +692,7 @@ if(openQuizBtn){
   const startBtn = document.getElementById("quizStartBtn");
   const skipBtn = document.getElementById("quizSkipBtn");
   const restartBtn = document.getElementById("quizRestartBtn");
+  const openQuizBtn = document.getElementById("openQuizBtn");
 
   const welcomeStep = document.getElementById("quizWelcome");
   const gameStep = document.getElementById("quizGame");
@@ -728,13 +719,10 @@ if(openQuizBtn){
     document.body.style.overflow = "hidden";
   }
 
-  function closePopup(saveSeen = true) {
+  function closePopup() {
     popup.classList.add("hidden");
     popup.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
-    if (saveSeen) {
-      localStorage.setItem("dadiosQuizSeen", "true");
-    }
   }
 
   function resetSteps() {
@@ -843,28 +831,31 @@ if(openQuizBtn){
       `Merci.`;
 
     whatsappBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-
-    localStorage.setItem("dadiosQuizSeen", "true");
   }
 
-  closeBtn.addEventListener("click", () => closePopup(true));
-  skipBtn.addEventListener("click", () => closePopup(true));
-  startBtn.addEventListener("click", startQuiz);
-  restartBtn.addEventListener("click", startQuiz);
+  if (closeBtn) closeBtn.addEventListener("click", closePopup);
+  if (skipBtn) skipBtn.addEventListener("click", closePopup);
+  if (startBtn) startBtn.addEventListener("click", startQuiz);
+  if (restartBtn) restartBtn.addEventListener("click", startQuiz);
+
+  if (openQuizBtn) {
+    openQuizBtn.addEventListener("click", () => {
+      resetSteps();
+      openPopup();
+    });
+  }
 
   popup.addEventListener("click", (e) => {
     if (e.target.classList.contains("quiz-popup-overlay")) {
-      closePopup(true);
+      closePopup();
     }
   });
 
-window.addEventListener("load", () => {
-  resetSteps();
+  window.addEventListener("load", () => {
+    resetSteps();
 
-  if (!localStorage.getItem("dadiosQuizSeen")) {
     setTimeout(() => {
       openPopup();
     }, 1200);
-    }
   });
 })();

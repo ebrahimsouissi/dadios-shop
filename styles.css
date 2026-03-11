@@ -1393,3 +1393,35 @@ footer{
 .quiz-btn-hero{
   cursor:pointer;
 }
+/* ===== QUIZ LANGUAGE SWITCH ===== */
+
+.quiz-lang-switch{
+  position:absolute;
+  top:18px;
+  right:60px;
+  display:flex;
+  gap:6px;
+  z-index:5;
+}
+
+.quiz-lang-btn{
+  border:1px solid #c7a657;
+  background:transparent;
+  color:#c7a657;
+  font-size:12px;
+  font-weight:600;
+  padding:4px 8px;
+  border-radius:6px;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+
+.quiz-lang-btn:hover{
+  background:#c7a657;
+  color:#0c0c0c;
+}
+
+.quiz-lang-btn.active{
+  background:#c7a657;
+  color:#0c0c0c;
+}

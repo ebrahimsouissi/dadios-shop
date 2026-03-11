@@ -545,95 +545,167 @@
   const WHATSAPP_NUMBER = "21656731891";
 
   const QUIZ_PRODUCTS = [
-    {
-      id: "my-way",
-      nom: "My Way",
-      genre: "femme",
-      saisons: ["printemps", "été"],
-      temps: ["jour", "quotidien"],
-      notes: ["floral", "fruité", "doux"],
-      profil: "Féminin, élégant, lumineux",
-      moment: "Parfait en journée et au quotidien.",
-      description: "Un parfum féminin élégant, doux et lumineux.",
+  {
+    id: "my-way",
+    nom: "My Way",
+    genre: "femme",
+    saisons: ["printemps", "été"],
+    temps: ["jour", "quotidien"],
+    notes: ["floral", "fruité", "doux"],
+    profil: {
+      fr: "Féminin, élégant, lumineux",
+      tn: "Neswi, chic w mdhawi"
     },
-    {
-      id: "alien",
-      nom: "Alien",
-      genre: "femme",
-      saisons: ["automne", "hiver"],
-      temps: ["soir", "événement"],
-      notes: ["floral", "ambre", "intense"],
-      profil: "Mystérieux, affirmé, magnétique",
-      moment: "Idéal en soirée et pendant les saisons fraîches.",
-      description: "Une fragrance puissante et envoûtante pour une présence forte.",
+    moment: {
+      fr: "Parfait en journée et au quotidien.",
+      tn: "Yji barcha fel nhar w lel usage kol nhar."
     },
-    {
-      id: "chloe",
-      nom: "Chloé",
-      genre: "femme",
-      saisons: ["printemps", "été"],
-      temps: ["jour", "quotidien"],
-      notes: ["floral", "frais", "doux"],
-      profil: "Délicat, chic, naturel",
-      moment: "Très agréable en journée.",
-      description: "Un parfum tendre et raffiné, idéal pour un sillage propre.",
-    },
-    {
-      id: "armani-code",
-      nom: "Armani Code",
-      genre: "homme",
-      saisons: ["automne", "hiver"],
-      temps: ["soir", "événement"],
-      notes: ["boisé", "oriental", "sensuel"],
-      profil: "Élégant, séduisant, sûr de lui",
-      moment: "Excellent pour le soir et les sorties.",
-      description: "Une signature élégante et sensuelle.",
-    },
-    {
-      id: "wanted",
-      nom: "Azzaro Wanted",
-      genre: "homme",
-      saisons: ["automne", "hiver"],
-      temps: ["soir", "événement"],
-      notes: ["épicé", "boisé", "intense"],
-      profil: "Énergique, charismatique, audacieux",
-      moment: "Très adapté pour les soirées.",
-      description: "Un parfum masculin puissant, dynamique et accrocheur.",
-    },
-    {
-      id: "king",
-      nom: "Dolce & Gabbana King",
-      genre: "homme",
-      saisons: ["printemps", "été"],
-      temps: ["jour", "quotidien"],
-      notes: ["frais", "boisé", "aromatique"],
-      profil: "Moderne, propre, confiant",
-      moment: "Très bon en journée et au travail.",
-      description: "Une fragrance fraîche et moderne pour un style propre.",
-    },
-    {
-      id: "vert-malachite",
-      nom: "Vert Malachite",
-      genre: "mixte",
-      saisons: ["automne", "hiver"],
-      temps: ["soir", "événement"],
-      notes: ["floral", "oriental", "luxueux"],
-      profil: "Luxe, caractère, singularité",
-      moment: "Parfait pour les occasions spéciales.",
-      description: "Un parfum mixte au caractère luxueux et remarquable.",
-    },
-    {
-      id: "marshmallow",
-      nom: "Marshmallow",
-      genre: "mixte",
-      saisons: ["automne", "hiver"],
-      temps: ["soir"],
-      notes: ["gourmand", "vanillé", "doux"],
-      profil: "Réconfortant, gourmand, attachant",
-      moment: "Idéal pour les amateurs de senteurs sucrées.",
-      description: "Une senteur gourmande et chaleureuse.",
+    description: {
+      fr: "Un parfum féminin élégant, doux et lumineux.",
+      tn: "Parfum neswi chic, hedi w mdhawi."
     }
-  ];
+  },
+  {
+    id: "alien",
+    nom: "Alien",
+    genre: "femme",
+    saisons: ["automne", "hiver"],
+    temps: ["soir", "événement"],
+    notes: ["floral", "ambre", "intense"],
+    profil: {
+      fr: "Mystérieux, affirmé, magnétique",
+      tn: "Ghamedh, 9awi w yjbed"
+    },
+    moment: {
+      fr: "Idéal en soirée et pendant les saisons fraîches.",
+      tn: "Ynesbek fel lil w fi sa9a l bard."
+    },
+    description: {
+      fr: "Une fragrance puissante et envoûtante pour une présence forte.",
+      tn: "Ri7a 9awiya w mghariya li t7eb torodh belha."
+    }
+  },
+  {
+    id: "chloe",
+    nom: "Chloé",
+    genre: "femme",
+    saisons: ["printemps", "été"],
+    temps: ["jour", "quotidien"],
+    notes: ["floral", "frais", "doux"],
+    profil: {
+      fr: "Délicat, chic, naturel",
+      tn: "R9i9, chic w tabi3i"
+    },
+    moment: {
+      fr: "Très agréable en journée.",
+      tn: "Yji barcha fel nhar."
+    },
+    description: {
+      fr: "Un parfum tendre et raffiné, idéal pour un sillage propre.",
+      tn: "Parfum hedi w raffiné, ykhalik nadhifa w chic."
+    }
+  },
+  {
+    id: "armani-code",
+    nom: "Armani Code",
+    genre: "homme",
+    saisons: ["automne", "hiver"],
+    temps: ["soir", "événement"],
+    notes: ["boisé", "oriental", "sensuel"],
+    profil: {
+      fr: "Élégant, séduisant, sûr de lui",
+      tn: "Chic, yghri w thi9a fel rou7"
+    },
+    moment: {
+      fr: "Excellent pour le soir et les sorties.",
+      tn: "Yji barcha fel lil w fel kharjat."
+    },
+    description: {
+      fr: "Une signature élégante et sensuelle.",
+      tn: "Ri7a chic w hassasa barcha."
+    }
+  },
+  {
+    id: "wanted",
+    nom: "Azzaro Wanted",
+    genre: "homme",
+    saisons: ["automne", "hiver"],
+    temps: ["soir", "événement"],
+    notes: ["épicé", "boisé", "intense"],
+    profil: {
+      fr: "Énergique, charismatique, audacieux",
+      tn: "Ta9a, charisme w جرأة"
+    },
+    moment: {
+      fr: "Très adapté pour les soirées.",
+      tn: "Yji barcha lel soireyat."
+    },
+    description: {
+      fr: "Un parfum masculin puissant, dynamique et accrocheur.",
+      tn: "Parfum rajeli 9awi, dynamique w يلفت الانتباه."
+    }
+  },
+  {
+    id: "king",
+    nom: "Dolce & Gabbana King",
+    genre: "homme",
+    saisons: ["printemps", "été"],
+    temps: ["jour", "quotidien"],
+    notes: ["frais", "boisé", "aromatique"],
+    profil: {
+      fr: "Moderne, propre, confiant",
+      tn: "3asri, nadhif w thi9a"
+    },
+    moment: {
+      fr: "Très bon en journée et au travail.",
+      tn: "Yji fel nhar w hata fel khedma."
+    },
+    description: {
+      fr: "Une fragrance fraîche et moderne pour un style propre.",
+      tn: "Ri7a fresh w 3asriya li style nadhif."
+    }
+  },
+  {
+    id: "vert-malachite",
+    nom: "Vert Malachite",
+    genre: "mixte",
+    saisons: ["automne", "hiver"],
+    temps: ["soir", "événement"],
+    notes: ["floral", "oriental", "luxueux"],
+    profil: {
+      fr: "Luxe, caractère, singularité",
+      tn: "Luxe, présence w caractère"
+    },
+    moment: {
+      fr: "Parfait pour les occasions spéciales.",
+      tn: "Yji barcha lel occasions l khasa."
+    },
+    description: {
+      fr: "Un parfum mixte au caractère luxueux et remarquable.",
+      tn: "Parfum mixte luxueux w moumyez."
+    }
+  },
+  {
+    id: "marshmallow",
+    nom: "Marshmallow",
+    genre: "mixte",
+    saisons: ["automne", "hiver"],
+    temps: ["soir"],
+    notes: ["gourmand", "vanillé", "doux"],
+    profil: {
+      fr: "Réconfortant, gourmand, attachant",
+      tn: "Hnin, hlou w yerta7lek"
+    },
+    moment: {
+      fr: "Idéal pour les amateurs de senteurs sucrées.",
+      tn: "Ynesbek ken t7eb ri7et skar w douceur."
+    },
+    description: {
+      fr: "Une senteur gourmande et chaleureuse.",
+      tn: "Ri7a hloua w dfiya."
+    }
+  }
+];
 
   const QUIZ_QUESTIONS = [
   {
@@ -913,9 +985,9 @@ btn.textContent = rep.label[state.lang];
     progressFill.style.width = "100%";
 
     resultName.textContent = best.nom;
-    resultDescription.textContent = best.description;
-    resultProfile.textContent = best.profil;
-    resultMoment.textContent = best.moment;
+  resultDescription.textContent = best.description[state.lang];
+resultProfile.textContent = best.profil[state.lang];
+resultMoment.textContent = best.moment[state.lang];
 
     resultNotes.innerHTML = "";
     best.notes.forEach((n) => {

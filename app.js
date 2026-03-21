@@ -410,6 +410,39 @@
 
   window.DADIOS = { PRODUCTS: PRODUCTS, applyFilters: applyFilters, populateFilters: populateFilters, refreshCartUI: refreshCartUI };
 
+// ===== THEME TOGGLE =====
+  const themeSwitch = $('#themeSwitch');
+  
+  function initTheme() {
+    const saved = localStorage.getItem('dadios-theme');
+    if (saved === 'beige') {
+      document.documentElement.classList.add('beige');
+      if (themeSwitch) {
+        themeSwitch.classList.add('beige-mode');
+      }
+    }
+  }
+  
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isBeige = html.classList.toggle('beige');
+    localStorage.setItem('dadios-theme', isBeige ? 'beige' : 'green');
+    if (themeSwitch) {
+      themeSwitch.classList.toggle('beige-mode', isBeige);
+    }
+  }
+  
+  if (themeSwitch) {
+    themeSwitch.addEventListener('click', toggleTheme);
+  }
+  
+  // Init on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTheme);
+  } else {
+    initTheme();
+  }
+  
   // ===== LOYALTY PATCH =====
   var LOYALTY_API = "/api/loyalty";
   var LOYALTY_KEY = "dadios_loyalty_card";
@@ -530,6 +563,20 @@
     var c = loadC(); 
     if(c){ procWL(c); } else { procWOL(); }
   });
+
+  // Fixed "Voir ma carte" button
+  const loyViewBtn = $('#loyBtnViewExisting');
+  if (loyViewBtn) {
+    loyViewBtn.addEventListener('click', function() {
+      const card = loadC();
+      if (card) {
+        showLS('success');
+        dispC(card);
+      } else {
+        alert('Aucune carte sauvegardée. Cliquez "Créer ma carte" pour commencer !');
+      }
+    });
+  }
   
   var chkBtn = document.getElementById('cartCheckout');
   if(chkBtn){

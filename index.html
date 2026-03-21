@@ -98,6 +98,10 @@
         💳 Fidélité
       </button>
 
+      <!-- Theme Switch Button -->
+      <button id="themeSwitch" class="theme-switch" type="button" aria-label="Toggle theme">
+      </button>
+
       <button id="cartBtn" class="cartBtn" type="button" aria-label="Panier">
         🛒 <span id="cartCount">0</span>
       </button>
@@ -225,6 +229,7 @@
         </div>
         <div class="loy-buttons">
           <button id="loyBtnCreate" class="loy-btn loy-btn-primary"><span>✨</span> Créer ma carte</button>
+          <button id="loyBtnViewExisting" class="loy-btn loy-btn-secondary"><span>👁️</span> Voir ma carte</button>
           <button id="loyBtnImport" class="loy-btn loy-btn-secondary"><span>📥</span> Importer une carte</button>
           <button id="loyBtnSkip" class="loy-btn loy-btn-ghost">Commander sans fidélité</button>
         </div>
@@ -262,7 +267,10 @@
           <div class="loy-rewards">🎁 <span id="loyRewardsCount">0</span> parfums offerts</div>
         </div>
         <p class="loy-message" id="loyMessage"></p>
-        <button id="loyBtnContinue" class="loy-btn loy-btn-primary">Continuer vers WhatsApp</button>
+        <div class="loy-actions">
+          <button id="loyBtnViewCard" class="loy-btn loy-btn-secondary">👁️ Voir ma carte</button>
+          <button id="loyBtnContinue" class="loy-btn loy-btn-primary">Continuer vers WhatsApp</button>
+        </div>
       </div>
       
       <div id="loyLoading" class="loy-section hidden">

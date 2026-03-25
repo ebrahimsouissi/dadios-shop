@@ -35,8 +35,8 @@
     <!-- MENU + CART + LOYALTY -->
     <div class="nav-actions">
       <div class="menuWrap">
-        <button id="menuBtn" class="menuBtn" type="button" aria-haspopup="true" aria-expanded="false">
-          ☰ Menu
+<button id="menuBtn" class="menuBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          ☰ <span class="nav-label">Menu</span>
         </button>
 
         <div id="menuDrop" class="menuDrop hidden" role="menu" aria-label="Menu filtres">
@@ -95,7 +95,7 @@
 
       <!-- Loyalty Card Icon Button -->
 <button id="loyaltyBtn" class="loyaltyBtn" type="button" aria-label="Carte Fidélité">
-        💳 Fidélité
+        💳 <span class="nav-label">Fidélité</span>
       </button>
 
       <!-- Theme Switch Button -->
@@ -229,7 +229,6 @@
         </div>
         <div class="loy-buttons">
           <button id="loyBtnCreate" class="loy-btn loy-btn-primary"><span>✨</span> Créer ma carte</button>
-          <button id="loyBtnViewExisting" class="loy-btn loy-btn-secondary"><span>👁️</span> Voir ma carte</button>
           <button id="loyBtnImport" class="loy-btn loy-btn-secondary"><span>📥</span> Importer une carte</button>
           <button id="loyBtnSkip" class="loy-btn loy-btn-ghost">Commander sans fidélité</button>
         </div>
@@ -250,8 +249,8 @@
       <div id="loyImport" class="loy-section hidden">
         <h3>Importer ma carte</h3>
         <div class="loy-form">
-          <div class="loy-field"><label for="loyCodeInput">Code carte</label><input type="text" id="loyCodeInput" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;"></div>
-          <div class="loy-field"><label for="loyPhoneImport">Téléphone (optionnel)</label><input type="tel" id="loyPhoneImport" placeholder="+216..."></div>
+<label for="loyCodeInput">Code carte ou téléphone</label><input type="text" id="loyCodeInput" placeholder="XXXX ou +216..." maxlength="20"></div>
+
           <div class="loy-actions">
             <button id="loyBtnSubmitImport" class="loy-btn loy-btn-primary">Importer & Commander</button>
             <button id="loyBtnBackImport" class="loy-btn loy-btn-ghost">Retour</button>
@@ -262,7 +261,9 @@
       <div id="loySuccess" class="loy-section hidden">
         <div class="loy-card-display">
           <div class="loy-card-code" id="loyCardCode">----</div>
-          <div class="loy-card-name" id="loyCardName">----</div>
+<div class="loy-card-name" id="loyCardName">----</div>
+<div class="loy-card-phone" id="loyCardPhone">Non renseigné</div>
+          <div class="loy-card-date" id="loyCardDate">Non disponible</div>
           <div class="loy-card-stamps"><div class="loy-stamps" id="loyStampsDisplay"><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span><span class="loy-stamp">•</span></div><div class="loy-stamps-text"><span id="loyStampsCount">0</span> / 8</div></div>
           <div class="loy-rewards">🎁 <span id="loyRewardsCount">0</span> parfums offerts</div>
         </div>

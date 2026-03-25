@@ -500,10 +500,14 @@
     if(!loyCC) return;
     if(loyCC) loyCC.textContent = c.code;
     if(loyCN) loyCN.textContent = c.name;
+    var loyPhone = $('#loyCardPhone');
+    if(loyPhone) loyPhone.textContent = c.phone || 'Non renseigné';
+    var loyDate = $('#loyCardDate');
+    if(loyDate) loyDate.textContent = c.created ? new Date(c.created).toLocaleDateString('fr-TN') : 'Non disponible';
     if(loySC) loySC.textContent = c.stamps;
     if(loyRC) loyRC.textContent = c.rewards;
     if(loySD) loySD.querySelectorAll('.loy-stamp').forEach(function(el,i){ el.classList.toggle('filled', i < c.stamps); });
-    if(loyMsg) loyMsg.textContent = c.rewards > 0 ? 'Vous avez '+c.rewards+' parfum'+(c.rewards>1?'s':'')+' offert'+(c.rewards>1?'s':'')+' !' : 'Plus que '+(8-c.stamps)+' tampon'+((8-c.stamps)>1?'s':'')+' pour un parfum offert !';
+    if(loyMsg) loyMsg.textContent = c.rewards > 0 ? 'Vous avez '+c.rewards+' parfum'+(c.rewards>1?'s':'')+' offert'+(c.rewards>1?'s':'')+' !' : 'Plus que '+(8-c.stamps)+' tampon'+((8-c.stamps)>1?'s':'')+' pour un parfum offert ! (' + c.stamps + ' parfums achetés)';
   }
   function initCO(){ var c = loadCart(); if(!c || !c.length) return; loyPC = c; openLM(); }
   function getPQ(){ return loyPC ? loyPC.reduce(function(s,i){ return s + (i.qty || 0); }, 0) : 0; }
@@ -546,17 +550,26 @@
     if(!n || !p){ alert('Veuillez remplir tous les champs'); return; }
     showLS('loading');
     apiP('create', {name:n, phone:p}).then(function(r){
-      if(r.ok){ saveC(r.card); dispC(r.card); showLS('success'); }
+      if(r.ok){ 
+        r.card.created = Date.now();
+        r.card.phone = p;
+        saveC(r.card); 
+        dispC(r.card); 
+        showLS('success'); 
+      }
       else{ alert(r.error || 'Erreur'); showLS('create'); }
     });
   });
   if(loyBSI) loyBSI.addEventListener('click', function(){ 
-    var c = loyCI.value.trim().toUpperCase();
-    if(!c){ alert('Veuillez entrer le code'); return; }
+    var identifier = loyCI.value.trim();
+    if(!identifier){ alert('Veuillez entrer code ou téléphone'); return; }
     showLS('loading');
-    apiP('get', {code:c}).then(function(r){
-      if(r.ok){ saveC(r.card); dispC(r.card); showLS('success'); }
-      else{ alert(r.error || 'Carte non trouvée'); showLS('import'); }
+    apiP('get', {identifier:identifier}).then(function(r){
+      if(r.ok){ 
+        // Phone set on create or from API
+        saveC(r.card); dispC(r.card); showLS('success'); 
+      }
+      else{ alert(r.error || 'Non trouvé'); showLS('import'); }
     });
   });
   if(loyBCt) loyBCt.addEventListener('click', function(){ 
@@ -564,19 +577,7 @@
     if(c){ procWL(c); } else { procWOL(); }
   });
 
-  // Fixed "Voir ma carte" button
-  const loyViewBtn = $('#loyBtnViewExisting');
-  if (loyViewBtn) {
-    loyViewBtn.addEventListener('click', function() {
-      const card = loadC();
-      if (card) {
-        showLS('success');
-        dispC(card);
-      } else {
-        alert('Aucune carte sauvegardée. Cliquez "Créer ma carte" pour commencer !');
-      }
-    });
-  }
+  // Removed "Voir ma carte" button per user request
   
   var chkBtn = document.getElementById('cartCheckout');
   if(chkBtn){

@@ -1138,14 +1138,34 @@ footer {
 .loy-btn-ghost:hover { background: rgba(255,255,255,0.08); color: #fff; }
 .loy-form { margin-top: 20px; }
 .loy-field { margin-bottom: 16px; }
-.loy-field label { display: block; color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-bottom: 6px; font-weight: 600; }
-.loy-field input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(199,166,87,0.3); background: rgba(0,0,0,0.3); color: #fff; font-size: 1rem; outline: none; transition: 0.25s; }
+.loy-field label { display: block; color: var(--gold); font-size: 0.9rem; margin-bottom: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+#loyCodeInput {
+  font-family: 'Playfair Display', serif !important;
+  background: linear-gradient(135deg, rgba(var(--bg-secondary-rgb), 0.8), rgba(var(--bg-primary-rgb), 0.9)) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1.5px solid rgba(var(--accent-gold-rgb), 0.5) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.2px !important;
+  text-align: center !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+#loyCodeInput:focus {
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 16px 48px rgba(var(--accent-gold-rgb), 0.35), 0 0 0 4px rgba(var(--accent-gold-rgb), 0.2) !important;
+  transform: translateY(-3px) !important;
+}
+.loy-field input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(199,166,87,0.2); background: rgba(0,0,0,0.5); transform: translateY(-1px); }
+.loy-field input::placeholder { color: rgba(255,255,255,0.5); font-style: italic; }
 .loy-field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(199,166,87,0.15); }
 .loy-field input::placeholder { color: rgba(255,255,255,0.4); }
 .loy-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
 .loy-card-display { background: linear-gradient(135deg,rgba(199,166,87,0.2),rgba(199,166,87,0.08)); border: 1px solid rgba(199,166,87,0.35); border-radius: 16px; padding: 25px; text-align: center; margin-bottom: 20px; }
 .loy-card-code { font-size: 2rem; font-weight: 800; color: var(--gold); letter-spacing: 4px; margin-bottom: 5px; }
-.loy-card-name { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 20px; }
+.loy-card-name { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 10px; }
+.loy-card-phone { color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 8px; opacity: 0.9; }
+.loy-card-date { color: rgba(255,255,255,0.65); font-size: 0.85rem; margin-bottom: 20px; opacity: 0.8; font-style: italic; }
 .loy-card-stamps { margin-bottom: 15px; }
 .loy-stamps { display: flex; justify-content: center; gap: 8px; margin-bottom: 8px; }
 .loy-stamp { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(199,166,87,0.3); transition: 0.3s; }
@@ -1526,6 +1546,35 @@ footer {
   border-radius:6px;
   cursor:pointer;
   transition:all .2s ease;
+}
+
+/* Mobile Navbar: Icons Only - Hide text labels */
+@media(max-width: 480px) {
+  .nav-label {
+    display: none;
+  }
+  
+  .menuBtn, .loyaltyBtn, .cartBtn {
+    padding: 10px 14px;
+    min-height: 44px;
+    border-radius: 22px;
+    gap: 0.5em;
+    font-size: 1.1em;
+    font-weight: 700;
+  }
+  
+  .cartBtn {
+    gap: 0.4em;
+  }
+  
+  #cartCount {
+    font-size: 0.75em;
+    padding: 2px 6px;
+    min-width: 22px;
+    border-radius: 12px;
+    background: rgba(199,166,87,0.3);
+    color: var(--accent-gold);
+  }
 }
 
 .quiz-lang-btn:hover{

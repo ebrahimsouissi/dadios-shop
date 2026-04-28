@@ -268,17 +268,13 @@
       closeMenu();
       var savedCard = loadC();
       var cart = loadCart();
+      loyPC = cart && cart.length > 0 ? cart : null;
+      openLM();
       if(savedCard){
-        // User already has a card — show it directly
-        loyPC = cart && cart.length > 0 ? cart : null;
-        openLM();
-        dispC(savedCard);
-        showLS('success');
-      } else if(cart && cart.length > 0){
-        loyPC = cart;
-        if(typeof initCO === 'function'){ initCO(); } else { openLM(); }
+        // Has card locally — show reconnect to refresh stamps from server
+        showLS('reconnect');
       } else {
-        openLM();
+        showLS('options');
       }
     });
   }
@@ -450,6 +446,10 @@
   var loyImp = document.getElementById('loyImport');
   var loySuc = document.getElementById('loySuccess');
   var loyLoa = document.getElementById('loyLoading');
+  var loyRec = document.getElementById('loyReconnect');       // NEW: reconnect section
+  var loyRecInput = document.getElementById('loyReconnectInput'); // NEW
+  var loyBtnRec = document.getElementById('loyBtnReconnect');    // NEW
+  var loyBtnRecSkip = document.getElementById('loyBtnReconnectSkip'); // NEW
   var loyBC = document.getElementById('loyBtnCreate');
   var loyBI = document.getElementById('loyBtnImport');
   var loyBS = document.getElementById('loyBtnSkip');
@@ -482,15 +482,21 @@
   function saveC(c){ localStorage.setItem(LOYALTY_KEY, JSON.stringify(c)); }
   function loadC(){ var d = localStorage.getItem(LOYALTY_KEY); return d ? JSON.parse(d) : null; }
   function openLM(){ if(loyModal) loyModal.classList.remove('hidden'); showLS('options'); }
-  function closeLM(){ if(loyModal) loyModal.classList.add('hidden'); if(loyNI) loyNI.value=''; if(loyPI) loyPI.value=''; if(loyCI) loyCI.value=''; if(loyPII) loyPII.value=''; }
+  function closeLM(){ if(loyModal) loyModal.classList.add('hidden'); if(loyNI) loyNI.value=''; if(loyPI) loyPI.value=''; if(loyCI) loyCI.value=''; if(loyPII) loyPII.value=''; if(loyRecInput) loyRecInput.value=''; }
   function showLS(s){ 
-    var arr = [loyOpt,loyCre,loyImp,loySuc,loyLoa];
+    var arr = [loyOpt, loyCre, loyImp, loySuc, loyLoa, loyRec];
     arr.forEach(function(x){ if(x) x.classList.add('hidden'); }); 
-    if(s==='options' && loyOpt) loyOpt.classList.remove('hidden');
-    if(s==='create' && loyCre) loyCre.classList.remove('hidden');
-    if(s==='import' && loyImp) loyImp.classList.remove('hidden');
-    if(s==='success' && loySuc) loySuc.classList.remove('hidden');
-    if(s==='loading' && loyLoa) loyLoa.classList.remove('hidden');
+    if(s==='options'    && loyOpt) loyOpt.classList.remove('hidden');
+    if(s==='create'     && loyCre) loyCre.classList.remove('hidden');
+    if(s==='import'     && loyImp) loyImp.classList.remove('hidden');
+    if(s==='success'    && loySuc) loySuc.classList.remove('hidden');
+    if(s==='loading'    && loyLoa) loyLoa.classList.remove('hidden');
+    if(s==='reconnect'  && loyRec) {
+      loyRec.classList.remove('hidden');
+      // Pre-fill with saved code so user sees it immediately
+      var saved = loadC();
+      if(loyRecInput && saved && saved.code) loyRecInput.value = saved.code;
+    }
   }
   function dispC(c){ 
     if(!loyCC) return;
@@ -505,7 +511,20 @@
     if(loySD) loySD.querySelectorAll('.loy-stamp').forEach(function(el,i){ el.classList.toggle('filled', i < c.stamps); });
     if(loyMsg) loyMsg.textContent = c.rewards > 0 ? 'Vous avez '+c.rewards+' parfum'+(c.rewards>1?'s':'')+' offert'+(c.rewards>1?'s':'')+' !' : 'Plus que '+(8-c.stamps)+' tampon'+((8-c.stamps)>1?'s':'')+' pour un parfum offert ! (' + c.stamps + ' parfums achetés)';
   }
-  function initCO(){ var c = loadCart(); if(!c || !c.length) return; loyPC = c; openLM(); }
+  function initCO(){ 
+    var c = loadCart(); 
+    if(!c || !c.length) return; 
+    loyPC = c; 
+    // 2nd+ visit: card saved locally → show reconnect screen to confirm identity
+    // 1st visit: no card → show options (create / import / skip)
+    var saved = loadC();
+    openLM();
+    if(saved) {
+      showLS('reconnect');
+    } else {
+      showLS('options');
+    }
+  }
   function getPQ(){ return loyPC ? loyPC.reduce(function(s,i){ return s + (i.qty || 0); }, 0) : 0; }
   function buildLM(c){ return '\n\n💎 CARTE FIDÉLITÉ:\nCode: '+c.code+'\nTampons: '+c.stamps+'/8\nRécompenses: '+c.rewards; }
   
@@ -575,6 +594,32 @@
     if(c){ dispC(c); showLS('success'); }
     else{ alert('Aucune carte trouvée'); showLS('options'); }
   });
+
+  // Reconnect: fetch latest card from API using code or phone, then proceed to checkout
+  if(loyBtnRec) loyBtnRec.addEventListener('click', function(){
+    var identifier = loyRecInput ? loyRecInput.value.trim() : '';
+    if(!identifier){ alert('Veuillez entrer votre code ou téléphone'); return; }
+    showLS('loading');
+    apiP('get', {identifier: identifier}).then(function(r){
+      if(r.ok){
+        saveC(r.card);   // refresh local card with latest stamps from server
+        dispC(r.card);
+        showLS('success');
+      } else {
+        // Not found — maybe they changed phone, let them try options
+        alert(r.error || 'Carte introuvable. Vérifiez votre code ou téléphone.');
+        showLS('reconnect');
+      }
+    });
+  });
+
+  // Enter key on reconnect input
+  if(loyRecInput) loyRecInput.addEventListener('keypress', function(e){
+    if(e.key === 'Enter' && loyBtnRec) loyBtnRec.click();
+  });
+
+  // Skip loyalty on reconnect screen
+  if(loyBtnRecSkip) loyBtnRecSkip.addEventListener('click', procWOL);
   if(loyBCt) loyBCt.addEventListener('click', function(){ 
     var c = loadC(); 
     if(c){ procWL(c); } else { procWOL(); }

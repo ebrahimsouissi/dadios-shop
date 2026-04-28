@@ -265,27 +265,20 @@
   const loyaltyBtn = document.getElementById('loyaltyBtn');
   if(loyaltyBtn){
     loyaltyBtn.addEventListener('click', function(){
-      closeMenu(); // Close menu if open
+      closeMenu();
+      var savedCard = loadC();
       var cart = loadCart();
-      if(cart && cart.length > 0){
-        if(typeof initCO === 'function'){
-          initCO();
-        } else {
-          loyPC = cart;
-          if(typeof openLM === 'function'){
-            openLM();
-          } else {
-            var loyModal = document.getElementById('loyModal');
-            if(loyModal) loyModal.classList.remove('hidden');
-          }
-        }
+      if(savedCard){
+        // User already has a card — show it directly
+        loyPC = cart && cart.length > 0 ? cart : null;
+        openLM();
+        dispC(savedCard);
+        showLS('success');
+      } else if(cart && cart.length > 0){
+        loyPC = cart;
+        if(typeof initCO === 'function'){ initCO(); } else { openLM(); }
       } else {
-        if(typeof openLM === 'function'){
-          openLM();
-        } else {
-          var loyModal = document.getElementById('loyModal');
-          if(loyModal) loyModal.classList.remove('hidden');
-        }
+        openLM();
       }
     });
   }
@@ -569,11 +562,18 @@
     showLS('loading');
     apiP('get', {identifier:identifier}).then(function(r){
       if(r.ok){ 
-        // Phone set on create or from API
         saveC(r.card); dispC(r.card); showLS('success'); 
       }
       else{ alert(r.error || 'Non trouvé'); showLS('import'); }
     });
+  });
+
+  // "Voir ma carte" — show the stored card in the success view
+  var loyBtnViewCard = document.getElementById('loyBtnViewCard');
+  if(loyBtnViewCard) loyBtnViewCard.addEventListener('click', function(){
+    var c = loadC();
+    if(c){ dispC(c); showLS('success'); }
+    else{ alert('Aucune carte trouvée'); showLS('options'); }
   });
   if(loyBCt) loyBCt.addEventListener('click', function(){ 
     var c = loadC(); 

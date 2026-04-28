@@ -43,10 +43,13 @@
   const selectedNotes = new Set();
 
   // ---- Utility functions ----
+  const WHATSAPP_NUMBER = '21656731891';
+
   function waLink(message){
-    const phone = '21656731891';
-    return 'https://wa.me/'+phone+'?text='+encodeURIComponent(message);
+    return 'https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(message);
   }
+  // Expose globally so other IIFEs (e.g. quiz) can reuse the same number
+  window.dadiosWaLink = waLink;
 
   function getCurrentSeason(){
     const m = new Date().getMonth() + 1;
@@ -590,7 +593,7 @@
 })();
 /* ===== QUIZ POPUP DADIOS ===== */
 (function () {
-  const WHATSAPP_NUMBER = "21656731891";
+  // Use the shared waLink exposed by the main IIFE
 
   const QUIZ_PRODUCTS = [
   {
@@ -1051,7 +1054,9 @@ resultMoment.textContent = best.moment[state.lang];
       `Je souhaite commander ou avoir plus d’informations.%0A` +
       `Merci.`;
 
-    whatsappBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    whatsappBtn.href = window.dadiosWaLink
+      ? window.dadiosWaLink(decodeURIComponent(msg))
+      : `https://wa.me/21656731891?text=${msg}`;
   }
 
   if (closeBtn) closeBtn.addEventListener("click", closePopup);

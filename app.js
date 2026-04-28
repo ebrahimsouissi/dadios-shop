@@ -472,7 +472,10 @@
   function loadC()  { var d = localStorage.getItem(LOYALTY_KEY); return d ? JSON.parse(d) : null; }
   function clearC() { localStorage.removeItem(LOYALTY_KEY); }
 
-  function openLM() { if(loyModal) loyModal.classList.remove('hidden'); }
+  function openLM() {
+    if(loyModal) loyModal.classList.remove('hidden');
+    showLS('options');
+  }
   function closeLM() {
     if(loyModal) loyModal.classList.add('hidden');
     if(loyConInput) loyConInput.value = '';

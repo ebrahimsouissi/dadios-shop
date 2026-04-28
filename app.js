@@ -435,210 +435,186 @@
     initTheme();
   }
   
-  // ===== LOYALTY PATCH =====
-  var LOYALTY_API = "/api/loyalty";
-  var LOYALTY_KEY = "dadios_loyalty_card";
-  var loyModal = document.getElementById('loyModal');
-  var loyOverlay = loyModal ? loyModal.querySelector('.loy-overlay') : null;
+  // ===== LOYALTY =====
+  var LOYALTY_API = '/api/loyalty';
+  var LOYALTY_KEY = 'dadios_loyalty_card';
+
+  var loyModal    = document.getElementById('loyModal');
+  var loyOverlay  = loyModal ? loyModal.querySelector('.loy-overlay') : null;
   var loyCloseBtn = loyModal ? loyModal.querySelector('.loy-close') : null;
-  var loyOpt = document.getElementById('loyOptions');
-  var loyCre = document.getElementById('loyCreate');
-  var loyImp = document.getElementById('loyImport');
-  var loySuc = document.getElementById('loySuccess');
-  var loyLoa = document.getElementById('loyLoading');
-  var loyRec = document.getElementById('loyReconnect');       // NEW: reconnect section
-  var loyRecInput = document.getElementById('loyReconnectInput'); // NEW
-  var loyBtnRec = document.getElementById('loyBtnReconnect');    // NEW
-  var loyBtnRecSkip = document.getElementById('loyBtnReconnectSkip'); // NEW
-  var loyBC = document.getElementById('loyBtnCreate');
-  var loyBI = document.getElementById('loyBtnImport');
-  var loyBS = document.getElementById('loyBtnSkip');
-  var loyBSC = document.getElementById('loyBtnSubmitCreate');
-  var loyBBC = document.getElementById('loyBtnBackCreate');
-  var loyBSI = document.getElementById('loyBtnSubmitImport');
-  var loyBBI = document.getElementById('loyBtnBackImport');
-  var loyBCt = document.getElementById('loyBtnContinue');
-  var loyNI = document.getElementById('loyName');
-  var loyPI = document.getElementById('loyPhone');
-  var loyCI = document.getElementById('loyCodeInput');
-  var loyPII = document.getElementById('loyPhoneImport');
-  var loyCC = document.getElementById('loyCardCode');
-  var loyCN = document.getElementById('loyCardName');
-  var loySC = document.getElementById('loyStampsCount');
-  var loyRC = document.getElementById('loyRewardsCount');
-  var loySD = document.getElementById('loyStampsDisplay');
-  var loyMsg = document.getElementById('loyMessage');
-  var loyPC = null;
-  
-  function apiP(a, d) {
+  var loyOpt      = document.getElementById('loyOptions');
+  var loyCon      = document.getElementById('loyConnect');
+  var loyCre      = document.getElementById('loyCreate');
+  var loySuc      = document.getElementById('loySuccess');
+  var loyLoa      = document.getElementById('loyLoading');
+  var loyConInput = document.getElementById('loyConnectInput');
+  var loyNI       = document.getElementById('loyName');
+  var loyPI       = document.getElementById('loyPhone');
+  var loyCC       = document.getElementById('loyCardCode');
+  var loyCN       = document.getElementById('loyCardName');
+  var loySC       = document.getElementById('loyStampsCount');
+  var loyRC       = document.getElementById('loyRewardsCount');
+  var loySD       = document.getElementById('loyStampsDisplay');
+  var loyMsg      = document.getElementById('loyMessage');
+  var loyPC       = null;
+
+  function apiP(action, data) {
     return fetch(LOYALTY_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(Object.assign({ action: a }, d))
+      body: JSON.stringify(Object.assign({ action: action }, data))
     })
     .then(function(r) { return r.json(); })
     .catch(function() { return { ok: false, error: 'Erreur de connexion' }; });
   }
-  function saveC(c){ localStorage.setItem(LOYALTY_KEY, JSON.stringify(c)); }
-  function loadC(){ var d = localStorage.getItem(LOYALTY_KEY); return d ? JSON.parse(d) : null; }
-  function openLM(){ if(loyModal) loyModal.classList.remove('hidden'); showLS('options'); }
-  function closeLM(){ if(loyModal) loyModal.classList.add('hidden'); if(loyNI) loyNI.value=''; if(loyPI) loyPI.value=''; if(loyCI) loyCI.value=''; if(loyPII) loyPII.value=''; if(loyRecInput) loyRecInput.value=''; }
-  function showLS(s){ 
-    var arr = [loyOpt, loyCre, loyImp, loySuc, loyLoa, loyRec];
-    arr.forEach(function(x){ if(x) x.classList.add('hidden'); }); 
-    if(s==='options'    && loyOpt) loyOpt.classList.remove('hidden');
-    if(s==='create'     && loyCre) loyCre.classList.remove('hidden');
-    if(s==='import'     && loyImp) loyImp.classList.remove('hidden');
-    if(s==='success'    && loySuc) loySuc.classList.remove('hidden');
-    if(s==='loading'    && loyLoa) loyLoa.classList.remove('hidden');
-    if(s==='reconnect'  && loyRec) {
-      loyRec.classList.remove('hidden');
-      // Pre-fill with saved code so user sees it immediately
+
+  function saveC(c) { localStorage.setItem(LOYALTY_KEY, JSON.stringify(c)); }
+  function loadC()  { var d = localStorage.getItem(LOYALTY_KEY); return d ? JSON.parse(d) : null; }
+  function clearC() { localStorage.removeItem(LOYALTY_KEY); }
+
+  function openLM() { if(loyModal) loyModal.classList.remove('hidden'); }
+  function closeLM() {
+    if(loyModal) loyModal.classList.add('hidden');
+    if(loyConInput) loyConInput.value = '';
+    if(loyNI) loyNI.value = '';
+    if(loyPI) loyPI.value = '';
+  }
+
+  function showLS(s) {
+    [loyOpt, loyCon, loyCre, loySuc, loyLoa].forEach(function(x) { if(x) x.classList.add('hidden'); });
+    if(s === 'options' && loyOpt) loyOpt.classList.remove('hidden');
+    if(s === 'connect' && loyCon) {
+      loyCon.classList.remove('hidden');
       var saved = loadC();
-      if(loyRecInput && saved && saved.code) loyRecInput.value = saved.code;
+      if(loyConInput && saved && saved.code) loyConInput.value = saved.code;
+      if(loyConInput) loyConInput.focus();
     }
+    if(s === 'create'  && loyCre) { loyCre.classList.remove('hidden'); if(loyNI) loyNI.focus(); }
+    if(s === 'success' && loySuc) loySuc.classList.remove('hidden');
+    if(s === 'loading' && loyLoa) loyLoa.classList.remove('hidden');
   }
-  function dispC(c){ 
+
+  function dispC(c) {
     if(!loyCC) return;
-    if(loyCC) loyCC.textContent = c.code;
-    if(loyCN) loyCN.textContent = c.name;
-    var loyPhone = $('#loyCardPhone');
-    if(loyPhone) loyPhone.textContent = c.phone || 'Non renseigné';
-    var loyDate = $('#loyCardDate');
-    if(loyDate) loyDate.textContent = c.created ? new Date(c.created).toLocaleDateString('fr-TN') : 'Non disponible';
-    if(loySC) loySC.textContent = c.stamps;
-    if(loyRC) loyRC.textContent = c.rewards;
-    if(loySD) loySD.querySelectorAll('.loy-stamp').forEach(function(el,i){ el.classList.toggle('filled', i < c.stamps); });
-    if(loyMsg) loyMsg.textContent = c.rewards > 0 ? 'Vous avez '+c.rewards+' parfum'+(c.rewards>1?'s':'')+' offert'+(c.rewards>1?'s':'')+' !' : 'Plus que '+(8-c.stamps)+' tampon'+((8-c.stamps)>1?'s':'')+' pour un parfum offert ! (' + c.stamps + ' parfums achetés)';
+    loyCC.textContent = c.code || '----';
+    if(loyCN) loyCN.textContent = c.name || '----';
+    var ph = document.getElementById('loyCardPhone');
+    if(ph) ph.textContent = c.phone || 'Non renseigné';
+    var dt = document.getElementById('loyCardDate');
+    if(dt) dt.textContent = c.createdAt ? new Date(c.createdAt).toLocaleDateString('fr-TN') : 'Non disponible';
+    if(loySC) loySC.textContent = c.stamps || 0;
+    if(loyRC) loyRC.textContent = c.rewards || 0;
+    if(loySD) loySD.querySelectorAll('.loy-stamp').forEach(function(el, i) {
+      el.classList.toggle('filled', i < (c.stamps || 0));
+    });
+    var remaining = 8 - (c.stamps || 0);
+    if(loyMsg) loyMsg.textContent = (c.rewards > 0)
+      ? 'Vous avez ' + c.rewards + ' parfum' + (c.rewards > 1 ? 's' : '') + ' offert' + (c.rewards > 1 ? 's' : '') + ' !'
+      : 'Plus que ' + remaining + ' tampon' + (remaining > 1 ? 's' : '') + ' pour un parfum offert !';
   }
-  function initCO(){ 
-    var c = loadCart(); 
-    if(!c || !c.length) return; 
-    loyPC = c; 
-    // 2nd+ visit: card saved locally → show reconnect screen to confirm identity
-    // 1st visit: no card → show options (create / import / skip)
-    var saved = loadC();
-    openLM();
-    if(saved) {
-      showLS('reconnect');
-    } else {
-      showLS('options');
-    }
-  }
-  function getPQ(){ return loyPC ? loyPC.reduce(function(s,i){ return s + (i.qty || 0); }, 0) : 0; }
-  function buildLM(c){ return '\n\n💎 CARTE FIDÉLITÉ:\nCode: '+c.code+'\nTampons: '+c.stamps+'/8\nRécompenses: '+c.rewards; }
-  
-  function procWL(c){
+
+  function getPQ() { return loyPC ? loyPC.reduce(function(s,i){ return s+(i.qty||0); }, 0) : 0; }
+  function buildLM(c) { return '\n\n💎 CARTE FIDÉLITÉ:\nCode: '+c.code+'\nTampons: '+c.stamps+'/8\nRécompenses: '+c.rewards; }
+
+  function procWL(c) {
     var q = getPQ();
-    console.log('[DADIOS] addStamp request - code:', c.code, 'qty:', q);
-    if(q > 0){
+    if(q > 0) {
       showLS('loading');
-      apiP('addStamp', {code:c.code, qty:q}).then(function(r){
-        if(r.ok){ saveC(r.card); dispC(r.card); }
+      apiP('addStamp', { code: c.code, qty: q }).then(function(r) {
+        if(r.ok) { saveC(r.card); }
         var m = buildCheckoutMessage(loyPC) + buildLM(r.ok ? r.card : c);
         closeLM();
         window.open(waLink(m), '_blank');
       });
     } else {
-      var m = buildCheckoutMessage(loyPC) + buildLM(c);
       closeLM();
-      window.open(waLink(m), '_blank');
+      window.open(waLink(buildCheckoutMessage(loyPC) + buildLM(c)), '_blank');
     }
   }
-  
-  function procWOL(){ 
-    closeLM(); 
-    window.open(waLink(buildCheckoutMessage(loyPC)), '_blank'); 
+
+  function procWOL() {
+    closeLM();
+    if(loyPC) window.open(waLink(buildCheckoutMessage(loyPC)), '_blank');
   }
-  
+
+  function initCO() {
+    var cart = loadCart();
+    if(!cart || !cart.length) return;
+    loyPC = cart;
+    openLM();
+    showLS(loadC() ? 'connect' : 'options');
+  }
+
   if(loyCloseBtn) loyCloseBtn.addEventListener('click', closeLM);
-  if(loyOverlay) loyOverlay.addEventListener('click', closeLM);
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && loyModal && !loyModal.classList.contains('hidden')) closeLM(); });
-  if(loyBS) loyBS.addEventListener('click', procWOL);
-  if(loyBC) loyBC.addEventListener('click', function(){ showLS('create'); });
-  if(loyBI) loyBI.addEventListener('click', function(){ showLS('import'); });
-  if(loyBBC) loyBBC.addEventListener('click', function(){ showLS('options'); });
-  if(loyBBI) loyBBI.addEventListener('click', function(){ showLS('options'); });
-  if(loyBSC) loyBSC.addEventListener('click', function(){ 
-    var n = loyNI.value.trim();
-    var p = loyPI.value.trim();
-    if(!n || !p){ alert('Veuillez remplir tous les champs'); return; }
+  if(loyOverlay)  loyOverlay.addEventListener('click', closeLM);
+  document.addEventListener('keydown', function(e) {
+    if(e.key === 'Escape' && loyModal && !loyModal.classList.contains('hidden')) closeLM();
+  });
+
+  var loyBtnConnect = document.getElementById('loyBtnConnect');
+  var loyBtnCreate  = document.getElementById('loyBtnCreate');
+  var loyBtnSkip    = document.getElementById('loyBtnSkip');
+  if(loyBtnConnect) loyBtnConnect.addEventListener('click', function() { showLS('connect'); });
+  if(loyBtnCreate)  loyBtnCreate.addEventListener('click',  function() { showLS('create'); });
+  if(loyBtnSkip)    loyBtnSkip.addEventListener('click', procWOL);
+
+  var loyBtnSubmitConnect = document.getElementById('loyBtnSubmitConnect');
+  var loyBtnBackConnect   = document.getElementById('loyBtnBackConnect');
+  if(loyBtnSubmitConnect) loyBtnSubmitConnect.addEventListener('click', function() {
+    var identifier = loyConInput ? loyConInput.value.trim() : '';
+    if(!identifier) { alert('Veuillez entrer votre code carte ou numéro de téléphone'); return; }
     showLS('loading');
-    apiP('create', {name:n, phone:p}).then(function(r){
-      if(r.ok){ 
-        r.card.created = Date.now();
-        r.card.phone = p;
-        saveC(r.card); 
-        dispC(r.card); 
-        showLS('success'); 
-      }
-      else{ alert(r.error || 'Erreur'); showLS('create'); }
+    apiP('get', { identifier: identifier }).then(function(r) {
+      if(r.ok) { saveC(r.card); dispC(r.card); showLS('success'); }
+      else { alert(r.error || 'Carte introuvable. Vérifiez votre code ou téléphone.'); showLS('connect'); }
     });
   });
-  if(loyBSI) loyBSI.addEventListener('click', function(){ 
-    var identifier = loyCI.value.trim();
-    if(!identifier){ alert('Veuillez entrer code ou téléphone'); return; }
+  if(loyConInput) loyConInput.addEventListener('keypress', function(e) {
+    if(e.key === 'Enter' && loyBtnSubmitConnect) loyBtnSubmitConnect.click();
+  });
+  if(loyBtnBackConnect) loyBtnBackConnect.addEventListener('click', function() { showLS('options'); });
+
+  var loyBtnSubmitCreate = document.getElementById('loyBtnSubmitCreate');
+  var loyBtnBackCreate   = document.getElementById('loyBtnBackCreate');
+  if(loyBtnSubmitCreate) loyBtnSubmitCreate.addEventListener('click', function() {
+    var n = loyNI ? loyNI.value.trim() : '';
+    var p = loyPI ? loyPI.value.trim() : '';
+    if(!n || !p) { alert('Veuillez remplir tous les champs'); return; }
     showLS('loading');
-    apiP('get', {identifier:identifier}).then(function(r){
-      if(r.ok){ 
-        saveC(r.card); dispC(r.card); showLS('success'); 
-      }
-      else{ alert(r.error || 'Non trouvé'); showLS('import'); }
+    apiP('create', { name: n, phone: p }).then(function(r) {
+      if(r.ok) { saveC(r.card); dispC(r.card); showLS('success'); }
+      else { alert(r.error || 'Erreur lors de la création'); showLS('create'); }
     });
   });
+  if(loyBtnBackCreate) loyBtnBackCreate.addEventListener('click', function() { showLS('options'); });
 
-  // "Voir ma carte" — show the stored card in the success view
-  var loyBtnViewCard = document.getElementById('loyBtnViewCard');
-  if(loyBtnViewCard) loyBtnViewCard.addEventListener('click', function(){
-    var c = loadC();
-    if(c){ dispC(c); showLS('success'); }
-    else{ alert('Aucune carte trouvée'); showLS('options'); }
-  });
+  var loyBtnContinue   = document.getElementById('loyBtnContinue');
+  var loyBtnChangeCard = document.getElementById('loyBtnChangeCard');
+  if(loyBtnContinue)   loyBtnContinue.addEventListener('click', function() { var c = loadC(); if(c) procWL(c); else procWOL(); });
+  if(loyBtnChangeCard) loyBtnChangeCard.addEventListener('click', function() { clearC(); showLS('options'); });
 
-  // Reconnect: fetch latest card from API using code or phone, then proceed to checkout
-  if(loyBtnRec) loyBtnRec.addEventListener('click', function(){
-    var identifier = loyRecInput ? loyRecInput.value.trim() : '';
-    if(!identifier){ alert('Veuillez entrer votre code ou téléphone'); return; }
-    showLS('loading');
-    apiP('get', {identifier: identifier}).then(function(r){
-      if(r.ok){
-        saveC(r.card);   // refresh local card with latest stamps from server
-        dispC(r.card);
-        showLS('success');
-      } else {
-        // Not found — maybe they changed phone, let them try options
-        alert(r.error || 'Carte introuvable. Vérifiez votre code ou téléphone.');
-        showLS('reconnect');
-      }
+  var loyaltyBtn = document.getElementById('loyaltyBtn');
+  if(loyaltyBtn) {
+    loyaltyBtn.addEventListener('click', function() {
+      closeMenu();
+      var cart = loadCart();
+      loyPC = cart && cart.length > 0 ? cart : null;
+      openLM();
+      showLS(loadC() ? 'connect' : 'options');
     });
-  });
+  }
 
-  // Enter key on reconnect input
-  if(loyRecInput) loyRecInput.addEventListener('keypress', function(e){
-    if(e.key === 'Enter' && loyBtnRec) loyBtnRec.click();
-  });
-
-  // Skip loyalty on reconnect screen
-  if(loyBtnRecSkip) loyBtnRecSkip.addEventListener('click', procWOL);
-  if(loyBCt) loyBCt.addEventListener('click', function(){ 
-    var c = loadC(); 
-    if(c){ procWL(c); } else { procWOL(); }
-  });
-
-  // Removed "Voir ma carte" button per user request
-  
   var chkBtn = document.getElementById('cartCheckout');
-  if(chkBtn){
+  if(chkBtn) {
     chkBtn.removeAttribute('href');
     chkBtn.style.pointerEvents = 'auto';
     chkBtn.style.cursor = 'pointer';
-    chkBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); initCO(); });
+    chkBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); initCO(); });
   }
 
 })();
 /* ===== QUIZ POPUP DADIOS ===== */
 (function () {
-  // Use the shared waLink exposed by the main IIFE
 
   const QUIZ_PRODUCTS = [
   {

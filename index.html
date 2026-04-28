@@ -274,6 +274,25 @@
         </div>
       </div>
       
+      <!-- RECONNECT: shown on 2nd+ visit when a card code is known locally -->
+      <div id="loyReconnect" class="loy-section hidden">
+        <div class="loy-header">
+          <span class="loy-icon">💎</span>
+          <h3>Bonjour, bon retour !</h3>
+          <p>Entrez votre code ou téléphone pour retrouver votre carte et cumuler vos tampons.</p>
+        </div>
+        <div class="loy-form">
+          <div class="loy-field">
+            <label for="loyReconnectInput">Code carte ou téléphone</label>
+            <input type="text" id="loyReconnectInput" placeholder="XXXX ou +216..." maxlength="20" autocomplete="off">
+          </div>
+          <div class="loy-actions">
+            <button id="loyBtnReconnect" class="loy-btn loy-btn-primary">Retrouver ma carte</button>
+            <button id="loyBtnReconnectSkip" class="loy-btn loy-btn-ghost">Commander sans fidélité</button>
+          </div>
+        </div>
+      </div>
+
       <div id="loyLoading" class="loy-section hidden">
         <div class="loy-spinner"></div>
         <p>Chargement...</p>

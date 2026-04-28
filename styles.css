@@ -150,7 +150,7 @@ button, a{
   height: 100vh;
   background:
     linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.65)),
-    var(--hero-bg, url("images/dadios-bg.png"));
+    var(--hero-bg, url("images/dadios-bg.jpg"));
   background-size: cover;
   background-position: center;
   display: flex;
@@ -161,7 +161,7 @@ button, a{
 }
 
 html.beige .hero {
-  --hero-bg: linear-gradient(rgba(58,47,32,0.3), rgba(232,200,115,0.2)), url("images/2bg.png");
+  --hero-bg: linear-gradient(rgba(58,47,32,0.3), rgba(232,200,115,0.2)), url("images/2bg.jpg");
 }
 .hero-overlay{ max-width:700px; padding-top:80px; }
 .hero h1 { 

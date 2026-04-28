@@ -271,8 +271,8 @@
       loyPC = cart && cart.length > 0 ? cart : null;
       openLM();
       if(savedCard){
-        // Has card locally — show reconnect to refresh stamps from server
-        showLS('reconnect');
+      // Has card locally — show connect screen to refresh stamps from server
+        showLS('connect');
       } else {
         showLS('options');
       }

@@ -146,12 +146,30 @@ export default {
     }
 
     if (action === "get") {
-      const code = String(body.code || "").trim().toUpperCase();
-      if (!code) return json({ ok: false, error: "Missing code" }, 400);
+      // Accept either a card code or a phone number (sent as `identifier`, `code`, or `phone`)
+      const identifier = String(body.identifier || body.code || body.phone || "").trim();
+      if (!identifier) return json({ ok: false, error: "Missing code or phone" }, 400);
 
-      const raw = await kv.get(`card:${code}`);
+      // Try direct code lookup first (codes are 4 uppercase chars)
+      const asCode = identifier.toUpperCase();
+      let raw = await kv.get(`card:${asCode}`);
+
+      // If not found by code, scan for matching phone number
+      if (!raw) {
+        const list = await kv.list({ prefix: "card:" });
+        for (const key of list.keys) {
+          const entry = await kv.get(key.name);
+          if (entry) {
+            const card = JSON.parse(entry);
+            if (card.phone && card.phone.replace(/\s+/g, "") === identifier.replace(/\s+/g, "")) {
+              raw = entry;
+              break;
+            }
+          }
+        }
+      }
+
       if (!raw) return json({ ok: false, error: "Carte non trouvée" }, 404);
-
       return json({ ok: true, card: normalize(JSON.parse(raw)) });
     }
 

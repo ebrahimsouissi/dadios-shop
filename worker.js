@@ -157,9 +157,30 @@ export default {
 
     if (action === "addStamp") {
       const code = String(body.code || "").trim().toUpperCase();
-      const qty = Math.max(1, parseInt(body.qty, 10) || 1);
+      // Cap qty to a realistic cart size (1–10) to prevent bulk abuse
+      const qty = Math.min(10, Math.max(1, parseInt(body.qty, 10) || 1));
 
       if (!code) return json({ ok: false, error: "Missing code" }, 400);
+
+      // --- Rate limiting: max 3 stamp additions per card per hour ---
+      const rateLimitKey = `ratelimit:stamp:${code}`;
+      const nowMs = Date.now();
+      const windowMs = 60 * 60 * 1000; // 1 hour
+
+      let rateData = { count: 0, windowStart: nowMs };
+      const rawRate = await kv.get(rateLimitKey);
+      if (rawRate) {
+        try {
+          const parsed = JSON.parse(rawRate);
+          if (nowMs - parsed.windowStart < windowMs) {
+            rateData = parsed;
+          }
+        } catch {}
+      }
+
+      if (rateData.count >= 3) {
+        return json({ ok: false, error: "Trop de tentatives. Réessayez dans une heure." }, 429);
+      }
 
       const raw = await kv.get(`card:${code}`);
       if (!raw) return json({ ok: false, error: "Carte non trouvée" }, 404);
@@ -170,7 +191,13 @@ export default {
       card.rewards += Math.floor(card.stamps / 8);
       card.stamps = card.stamps % 8;
 
-      await kv.put(`card:${code}`, JSON.stringify(card));
+      // Persist card and update rate limit counter atomically
+      rateData.count += 1;
+      await Promise.all([
+        kv.put(`card:${code}`, JSON.stringify(card)),
+        kv.put(rateLimitKey, JSON.stringify(rateData), { expirationTtl: 3600 }),
+      ]);
+
       return json({ ok: true, card });
     }
 

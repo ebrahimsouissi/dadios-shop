@@ -944,6 +944,10 @@ const langTnBtn = document.getElementById("langTnBtn");
   }
 
   function closePopup() {
+    // Blur any focused element inside the popup before hiding it,
+    // otherwise aria-hidden on the ancestor traps focus (browser warning)
+    const focused = popup.querySelector(":focus");
+    if (focused) focused.blur();
     popup.classList.add("hidden");
     popup.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";

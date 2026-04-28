@@ -596,17 +596,6 @@
   if(loyBtnContinue)   loyBtnContinue.addEventListener('click', function() { var c = loadC(); if(c) procWL(c); else procWOL(); });
   if(loyBtnChangeCard) loyBtnChangeCard.addEventListener('click', function() { clearC(); showLS('options'); });
 
-  var loyaltyBtn = document.getElementById('loyaltyBtn');
-  if(loyaltyBtn) {
-    loyaltyBtn.addEventListener('click', function() {
-      closeMenu();
-      var cart = loadCart();
-      loyPC = cart && cart.length > 0 ? cart : null;
-      openLM();
-      showLS(loadC() ? 'connect' : 'options');
-    });
-  }
-
   var chkBtn = document.getElementById('cartCheckout');
   if(chkBtn) {
     chkBtn.removeAttribute('href');

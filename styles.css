@@ -280,6 +280,17 @@ html.beige .hero {
 
 .name{ font-size:1.05rem; margin-bottom:10px; color:var(--gold); }
 
+/* Product card price — shown under product name */
+.card .price {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+}
+
 /* Actions row */
 .card-actions{
   width:100%;
